@@ -4,6 +4,24 @@
 ---break--- */
 @custom-variant dark (&:is(.dark *));
 
+body {
+   font-family: var(--font-poppins), sans-serif;
+}
+
+.bg-image{
+   background-image: url('/alpas-bg.png');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   min-height: 100vh;
+   min-width: 100vw;
+}
+
+@theme {
+   --font-poppins: Poppins, sans-serif;
+}
+
 /* 
 :root {
   --background: #ffffff;
