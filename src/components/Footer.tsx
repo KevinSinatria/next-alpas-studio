@@ -11,7 +11,7 @@ export default function Footer() {
    ];
 
    return (
-      <footer className="w-full flex flex-col p-8 divide-y divide-gray-200 bg-slate-950">
+      <footer className="w-full flex flex-col p-8 divide-y mt-8 divide-gray-200 bg-slate-950">
          <div className="flex flex-wrap gap-8 w-full py-4 items-center justify-between">
             <Image src="/alpas_icon_hd.svg" alt="alpas-logo" width={100} height={100} />
             <nav>

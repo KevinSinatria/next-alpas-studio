@@ -20,7 +20,7 @@ const OurTemplateSection = () => {
                   <button className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all"><span className="drop-shadow-lg font-semibold">Order Now</span></button>
                </div>
                <div className="flex flex-col flex-1 w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-4">
-                  <Image src="/ourtemplates/template1.png" alt="template1" width={500} height={500} className="object-cover w-full rounded-2xl" />
+                  <Image src="/ourtemplates/template2.png" alt="template1" width={500} height={500} className="object-cover w-full rounded-2xl" />
                   <h2 className="text-black font-semibold text-lg">Blue instagram content template</h2>
                   <div className="flex gap-2 items-start">
                      <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span> <span className="font-semibold text-2xl">31.700,-</span>
@@ -28,7 +28,7 @@ const OurTemplateSection = () => {
                   <button className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all"><span className="drop-shadow-lg font-semibold">Order Now</span></button>
                </div>
                <div className="flex flex-col flex-1 w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-4">
-                  <Image src="/ourtemplates/template1.png" alt="template1" width={500} height={500} className="object-cover w-full rounded-2xl" />
+                  <Image src="/ourtemplates/template3.png" alt="template1" width={500} height={500} className="object-cover w-full rounded-2xl" />
                   <h2 className="text-black font-semibold text-lg">Blue instagram content template</h2>
                   <div className="flex gap-2 items-start">
                      <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span> <span className="font-semibold text-2xl">31.700,-</span>

@@ -14,11 +14,12 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Services", href: "/services" },
-    { name: "Contact", href: "/contact" },
-  ];
+      { name: "Kustom", href: "/custom" },
+      { name: "Templat", href: "/templates" },
+      { name: "Testimoni", href: "/testimonials" },
+      { name: "Riwayat Pemesanan", href: "/history" },
+      { name: "Tentang Kami", href: "/about" },
+   ];
 
   return (
     <nav
