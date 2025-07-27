@@ -1,6 +1,5 @@
-import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 
 const poppins = Poppins({
    variable: "--font-poppins",
@@ -8,11 +7,6 @@ const poppins = Poppins({
    display: "swap",
    weight: ["400", "500", "600", "700"],
 });
-
-export const metadata: Metadata = {
-   title: "Alpas Studio",
-   description: "Alpas Studio adalah sebuah studio yang menyediakan berbagai layanan digital.",
-};
 
 export default function RootLayout({
    children,
@@ -22,7 +16,7 @@ export default function RootLayout({
    return (
       <html lang="en">
          <body
-            className={`${poppins.className} w-full max-w-screen overflow-x-hidden antialiased`}
+            className={`${poppins.variable} antialiased`}
          >
             {children}
          </body>
