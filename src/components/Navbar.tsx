@@ -23,7 +23,6 @@ export default function Navbar() {
     { name: "Testimoni", href: "/testimoni" },
     { name: "Tentang Kami", href: "/tentang-kami" },
   ];
-
   return (
     <nav
       className={`st top-0 left-0 right-0 z-50 transition-all duration-300 ${

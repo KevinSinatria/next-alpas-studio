@@ -18,6 +18,16 @@ body {
    min-width: 100vw;
 }
 
+.bg-image-customer{
+   background-image: url('/alpas-bg-customer.png');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-attachment: scroll;
+   min-height: 100vh;
+   min-width: 100vw;
+}
+
 @theme {
    --font-poppins: Poppins, sans-serif;
 }
