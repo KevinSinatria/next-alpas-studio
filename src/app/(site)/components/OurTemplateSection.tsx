@@ -12,7 +12,7 @@ const OurTemplateSection = () => {
             </header>
             <main className="flex gap-8 w-full">
                <div className="flex flex-col gap-4 p-2">
-                  <Image />
+                  <Image src="/" />
                </div>
             </main>
             <footer></footer>
