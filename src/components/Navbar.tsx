@@ -20,7 +20,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Kustom", href: "/about" },
-    { name: "Templat", href: "/templat" },
+    { name: "Template", href: "/template" },
     { name: "Testimoni", href: "/testimoni" },
     { name: "Tentang Kami", href: "/tentang-kami" },
   ];
