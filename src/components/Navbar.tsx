@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import {motion} from "framer-motion";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -48,7 +49,7 @@ export default function Navbar() {
               className={`px-3 py-2 transition-colors h-10 ${
                 pathname === item.href
                   ? "text-white bg-blue-600/40 rounded-2xl font-semibold"
-                  : "text-white  hover:border-b-4 hover:border-blue-400 "
+                  : "hover:border-b-2 text-white border-blue-600/40  "
               }`}
             >
               <div className="[text-shadow:_0_1px_2px]">
