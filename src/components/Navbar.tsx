@@ -25,9 +25,9 @@ export default function Navbar() {
   ];
   return (
     <nav
-      className={`st top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "shadow-lg backdrop-blur bg-white/10 m-15 rounded-xl border border-gray-400 dark:border-gray-700"
+          ? "shadow-lg backdrop-blur bg-white/10 m-5 rounded-xl border border-gray-400 dark:border-gray-700"
           : "bg-white/10 dark:bg-gray-800/60 backdrop-blur border border-gray-400 dark:border-gray-700"
       }`}
     >
@@ -35,9 +35,9 @@ export default function Navbar() {
         <Image
           src="/alpas_icon_hd.svg"
           alt="Logo"
-          width={40}
-          height={40}
-          className="h-10 w-auto"
+          width={30}
+          height={30}
+          className="h-12 w-auto"
         />
 
         <div className="hidden md:flex space-x-6">
@@ -45,10 +45,10 @@ export default function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`px-3 py-2 transition-colors ${
+              className={`px-3 py-2 transition-colors h-10 ${
                 pathname === item.href
-                  ? "text-white bg-blue-400 rounded-2xl font-semibold"
-                  : "text-white dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-400"
+                  ? "text-white bg-blue-600/40 rounded-2xl font-semibold"
+                  : "text-white  hover:border-b-4 hover:border-blue-400 "
               }`}
             >
               <div className="[text-shadow:_0_1px_2px]">
