@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import {motion} from "framer-motion";
+
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
