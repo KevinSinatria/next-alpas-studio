@@ -20,8 +20,8 @@ const templates = [
     price: "31.700,-",
     gambar: [
       "/ourtemplates/template1.png",
-      "/ourtemplates/template2.png",
-      "/ourtemplates/template3.png",
+      "/ourtemplates/template1_2.png",
+      "/ourtemplates/template1_3.png",
     ],
   },
   {
@@ -111,8 +111,8 @@ export default function TemplatePage() {
   };
 
   return (
-    <section className="px-4 sm:px-8 py-8 lg:px-20 w-full">
-      <div className="w-full flex flex-col bg-linear-to-b/oklch from-slate-700/40 to-gray-400/70 p-4 sm:p-8 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-10 sm:mt-20">
+    <section className="px-4 sm:px-8 py-8 lg:px-20 w-full ">
+      <div className="w-full flex flex-col bg-linear-to-b/oklch from-slate-700/40 to-gray-400/70 p-10 sm:p-8 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-50  sm:mt-20">
         <header className="w-full text-center md:text-left px-2">
           <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
             <span className="text-xl sm:text-3xl md:text-4xl font-semibold uppercase">
@@ -125,7 +125,7 @@ export default function TemplatePage() {
           </h2>
         </header>
 
-        <main className="w-full">
+        <main className="w-full m-20">
           <div
             className="grid gap-6 sm:gap-8 md:gap-10 
                           grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
@@ -136,42 +136,47 @@ export default function TemplatePage() {
                 key={template.id}
                 className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
               >
-                <HoverCard>
-                  <HoverCardContent className="mx-5">
-                    <div className="flex flex-col gap-4">
-                      <div className="flex ">
-                        {template.gambar &&
-                          template.gambar.map((img, index) => (
-                            <Image
-                              key={index}
-                              src={img}
-                              alt={template.alt}
-                              width={200}
-                              height={200}
-                              className=" rounded-2xl"
-                            />
-                          ))}
-                      </div>
-                      <div className="flex">
-                        <div className="flex flex-col">
-                          <h1 className="text-xl font-semibold ">
-                            {template.title}
-                          </h1>
-                          <h5>{template.dekskription}</h5>
+                <Link href={`/templates/${template.id}`}>
+                  <HoverCard>
+                    <HoverCardContent className="mx-5">
+                      <div className="flex flex-col gap-4">
+                        <div className="flex ">
+                          {template.gambar &&
+                            template.gambar.map((img, index) => (
+                              <Image
+                                key={index}
+                                src={img}
+                                alt={template.alt}
+                                width={200}
+                                height={200}
+                                className=" rounded-2xl"
+                              />
+                            ))}
                         </div>
-                        <div className="flex gap-1 items-start mt-1">
-                          <span className="text-xs bg-green-200 px-1 rounded-lg">
-                            Rp
-                          </span>
-                          <span className="font-semibold text-lg sm:text-2xl">
-                            {template.price}
-                          </span>
+                        <div className="flex">
+                          <div className="flex flex-col">
+                            <h1 className="text-xl font-semibold ">
+                              {template.title}
+                            </h1>
+                            <h5>{template.dekskription}</h5>
+                          </div>
+                          <div className="flex gap-1 items-start mt-1">
+                            <span className="text-xs bg-green-200 px-1 rounded-lg">
+                              Rp
+                            </span>
+                            <span className="font-semibold text-lg sm:text-2xl">
+                              {template.price}
+                            </span>
+                          </div>
                         </div>
+                          <Button className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base">
+                            <span className="drop-shadow-lg font-semibold">
+                              Order Now
+                            </span>
+                          </Button>
                       </div>
-                    </div>
-                  </HoverCardContent>
-                  <HoverCardTrigger asChild>
-                    <Link href={`/templates/${template.id}`}>
+                    </HoverCardContent>
+                    <HoverCardTrigger asChild>
                       <Image
                         src={template.image}
                         alt={template.alt}
@@ -179,27 +184,27 @@ export default function TemplatePage() {
                         height={500}
                         className="object-cover w-full h-auto rounded-2xl"
                       />
-                      <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
-                        {template.title.length > 50
-                          ? template.title.substring(0, 50) + "..."
-                          : template.title}
-                      </h2>
-                      <div className="flex gap-1 items-start mt-1">
-                        <span className="text-xs bg-green-200 px-1 rounded-lg">
-                          Rp
-                        </span>
-                        <span className="font-semibold text-lg sm:text-2xl">
-                          {template.price}
-                        </span>
-                      </div>
-                      <Button className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base">
-                        <span className="drop-shadow-lg font-semibold">
-                          Order Now
-                        </span>
-                      </Button>
-                    </Link>
-                  </HoverCardTrigger>
-                </HoverCard>
+                    </HoverCardTrigger>
+                  </HoverCard>
+                  <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
+                    {template.title.length > 50
+                      ? template.title.substring(0, 50) + "..."
+                      : template.title}
+                  </h2>
+                  <div className="flex gap-1 items-start mt-1">
+                    <span className="text-xs bg-green-200 px-1 rounded-lg">
+                      Rp
+                    </span>
+                    <span className="font-semibold text-lg sm:text-2xl">
+                      {template.price}
+                    </span>
+                  </div>
+                  <Button className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base">
+                    <span className="drop-shadow-lg font-semibold">
+                      Order Now
+                    </span>
+                  </Button>
+                </Link>
               </div>
             ))}
           </div>
