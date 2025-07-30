@@ -7,7 +7,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import PemesananTemplate from "@/components/FormPemesananTemplate";
 
 const templates = [
   {
@@ -52,39 +52,49 @@ const templates = [
       "/ourtemplates/template2.png",
     ],
   },
-  // Tambahkan lebih banyak template sesuai kebutuhan
   {
     id: 4,
-    image: "/ourtemplates/template4.png",
+    image: "/ourtemplates/template1.png",
     alt: "template4",
     title: "Yellow instagram content template",
     dekskription:
       "Template untuk konten Instagram dengan tema kuning yang siap pakai.",
     price: "28.500,-",
     gambar: [
-      "/ourtemplates/template4.png",
+      "/ourtemplates/template3.png",
       "/ourtemplates/template1.png",
       "/ourtemplates/template2.png",
     ],
   },
   {
     id: 5,
-    image: "/ourtemplates/template5.png",
+    image: "/ourtemplates/template2.png",
     alt: "template5",
     title: "Purple instagram content template",
     dekskription:
       "Template untuk konten Instagram dengan tema ungu yang siap pakai.",
     price: "33.000,-",
     gambar: [
-      "/ourtemplates/template5.png",
+      "/ourtemplates/template3.png",
       "/ourtemplates/template1.png",
       "/ourtemplates/template2.png",
     ],
   },
 ];
 
+
 export default function TemplatePage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFormTemplate, setShowFormTemplate] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<{
+    id: number;
+    image: string;
+    alt: string;
+    title: string;
+    dekskription: string;
+    price: string;
+    gambar: string[];
+  } | null>(null);
   const itemsPerPage = 5;
 
   const totalPages = Math.ceil(templates.length / itemsPerPage);
@@ -96,7 +106,6 @@ export default function TemplatePage() {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  // 🔥 Generate nomor halaman dengan ellipsis
   const getPages = () => {
     let pages = [];
     if (totalPages <= 5) {
@@ -112,31 +121,36 @@ export default function TemplatePage() {
 
   return (
     <section className="px-4 sm:px-8 py-8 lg:px-20 w-full ">
-      <div className="w-full flex flex-col bg-linear-to-b/oklch from-slate-700/40 to-gray-400/70 p-10 sm:p-8 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-50  sm:mt-20">
-        <header className="w-full text-center md:text-left px-2">
-          <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
-            <span className="text-xl sm:text-3xl md:text-4xl font-semibold uppercase">
-              TEMPLATE KAMI
-            </span>
-            <span className="text-sm sm:text-lg md:text-2xl max-w-2xl mx-auto md:mx-0 leading-snug">
-              Jelajahi Ratusan Template Siap Pakai untuk Bisnis dan Personal
-              Branding Anda!
-            </span>
-          </h2>
-        </header>
+      {showFormTemplate ? (
+        <PemesananTemplate
+          template={selectedTemplate}
+          onBack={() => setShowFormTemplate(false)}
+        />
+      ) : (
+        <div className="w-full flex flex-col bg-linear-to-b/oklch from-slate-700/40 to-gray-400/70 p-10 sm:p-8 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-50  sm:mt-20">
+          <header className="w-full text-center md:text-left px-2">
+            <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
+              <span className="text-xl sm:text-3xl md:text-4xl font-semibold uppercase">
+                TEMPLATE KAMI
+              </span>
+              <span className="text-sm sm:text-lg md:text-2xl max-w-2xl mx-auto md:mx-0 leading-snug">
+                Jelajahi Ratusan Template Siap Pakai untuk Bisnis dan Personal
+                Branding Anda!
+              </span>
+            </h2>
+          </header>
 
-        <main className="w-full m-20">
-          <div
-            className="grid gap-6 sm:gap-8 md:gap-10 
+          <main className="w-full m-20">
+            <div
+              className="grid gap-6 sm:gap-8 md:gap-10 
                           grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
                           justify-center items-start w-full px-2 sm:px-4"
-          >
-            {currentItems.map((template) => (
-              <div
-                key={template.id}
-                className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
-              >
-                <Link href={`/templates/${template.id}`}>
+            >
+              {currentItems.map((template) => (
+                <div
+                  key={template.id}
+                  className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
+                >
                   <HoverCard>
                     <HoverCardContent className="mx-5">
                       <div className="flex flex-col gap-4">
@@ -169,11 +183,6 @@ export default function TemplatePage() {
                             </span>
                           </div>
                         </div>
-                          <Button className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base">
-                            <span className="drop-shadow-lg font-semibold">
-                              Order Now
-                            </span>
-                          </Button>
                       </div>
                     </HoverCardContent>
                     <HoverCardTrigger asChild>
@@ -199,60 +208,66 @@ export default function TemplatePage() {
                       {template.price}
                     </span>
                   </div>
-                  <Button className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base">
+                  <Button
+                    className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base"
+                    onClick={() => {
+                      setSelectedTemplate(template);
+                      setShowFormTemplate(true);
+                    }}
+                  >
                     <span className="drop-shadow-lg font-semibold">
                       Order Now
                     </span>
                   </Button>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </main>
+                </div>
+              ))}
+            </div>
+          </main>
 
-        <footer className="p-1 sm:p-2 px-2 sm:px-4 rounded-full flex justify-center gap-2 mt-6 bg-gray-300 flex-wrap">
-          <button
-            onClick={() => changePage(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-3 sm:px-4 py-1 sm:py-2 rounded-full bg-white text-black text-sm sm:text-base font-medium disabled:bg-white/50 transition"
-          >
-            Previous
-          </button>
+          <footer className="p-1 sm:p-2 px-2 sm:px-4 rounded-full flex justify-center gap-2 mt-6 bg-gray-300 flex-wrap">
+            <button
+              onClick={() => changePage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-3 sm:px-4 py-1 sm:py-2 rounded-full bg-white text-black text-sm sm:text-base font-medium disabled:bg-white/50 transition"
+            >
+              Previous
+            </button>
 
-          <div className="flex items-center gap-1 sm:gap-2">
-            {getPages().map((page, i) =>
-              page === "..." ? (
-                <span
-                  key={i}
-                  className="px-1 sm:px-2 text-black text-sm sm:text-base"
-                >
-                  ...
-                </span>
-              ) : (
-                <button
-                  key={i}
-                  onClick={() => changePage(page as number)}
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition ${
-                    currentPage === page
-                      ? "bg-white text-black shadow"
-                      : "bg-transparent text-black hover:bg-white/50"
-                  }`}
-                >
-                  {page}
-                </button>
-              )
-            )}
-          </div>
+            <div className="flex items-center gap-1 sm:gap-2">
+              {getPages().map((page, i) =>
+                page === "..." ? (
+                  <span
+                    key={i}
+                    className="px-1 sm:px-2 text-black text-sm sm:text-base"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={i}
+                    onClick={() => changePage(page as number)}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition ${
+                      currentPage === page
+                        ? "bg-white text-black shadow"
+                        : "bg-transparent text-black hover:bg-white/50"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+            </div>
 
-          <button
-            onClick={() => changePage(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-3 sm:px-4 py-1 sm:py-2 rounded-full bg-black text-white text-sm sm:text-base font-medium disabled:opacity-40 transition"
-          >
-            Next
-          </button>
-        </footer>
-      </div>
+            <button
+              onClick={() => changePage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-3 sm:px-4 py-1 sm:py-2 rounded-full bg-black text-white text-sm sm:text-base font-medium disabled:opacity-40 transition"
+            >
+              Next
+            </button>
+          </footer>
+        </div>
+      )}
     </section>
   );
 }
