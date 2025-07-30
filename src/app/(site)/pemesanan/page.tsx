@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function PemesananTemplatePage() {
   const searchParams = useSearchParams();
@@ -22,7 +23,7 @@ export default function PemesananTemplatePage() {
               <Link href={"/template"} className="text-5xl font-semibold">
                 <ArrowLeft />
               </Link>
-              <div className="text-4xl font-semibold">FORM PEMESANAN</div>
+              <div className="text-2xl font-semibold">FORM PEMESANAN</div>
               <div className="text-4xl font-semibold"></div>
             </span>
             <div className="text-sm sm:text-lg md:text-2xl max-w-2xl mx-auto md:mx-0 space-y-5 leading-snug">
@@ -39,7 +40,7 @@ export default function PemesananTemplatePage() {
               <label className="text-xl mb-4">Nama</label>
               <Input
                 required
-                className="bg-white/80 text-2xl font-semibold h-13"
+                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
                 type="text"
                 placeholder="Masukan Nama Mu Disini"
               />
@@ -47,15 +48,25 @@ export default function PemesananTemplatePage() {
               <label className="text-xl mb-4">Email/No Hp</label>
               <Input
                 required
-                className="bg-white/80 text-2xl font-semibold h-13"
+                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
                 type="text"
                 placeholder="Masukan Nama Mu Disini"
               />
 
-              <label className="text-xl mb-4">Template Yang dipilih</label>
-              <h1 className="bg-blue-300/65 text-lg flex items-center text-black/70 px-4 font-semibold h-13 rounded-lg ">
-                {title}
-              </h1>
+              <label className="text-xl mb-4">Pesan</label>
+              <Textarea
+                required
+                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
+                placeholder="Masukkan pesan kustom dari desain (Misalkan: Buatkan aku desain feed instagram 
+dengan style modern minimalist dominan warna biru dengan font khusus Monsterrat)"
+              />
+
+              <label className="text-xl mb-4">Link Asset</label>
+              <Textarea
+                required
+                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
+                placeholder="Masukkan link foto maupun logo yang perlu dimasukkan kedalam desain (Disarankan berbentuk tautan google drive)"
+              />
 
               <Button onClick={() => setShowAlert(true)}>
                 Tampilkan Alert
