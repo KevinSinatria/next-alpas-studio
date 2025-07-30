@@ -44,7 +44,7 @@ export default function PemesananTemplate({ template, onBack }: PemesananTemplat
               >
                 <ArrowLeft />
               </Link>
-              <div className="text-4xl font-semibold">FORM PEMESANAN</div>
+              <div className="text-3xl font-semibold">FORM PEMESANAN</div>
               <div className="text-4xl font-semibold"></div>
             </span>
             <form className="text-sm sm:text-lg md:text-2xl max-w-2xl mx-auto md:mx-0 space-y-5 leading-snug" >
