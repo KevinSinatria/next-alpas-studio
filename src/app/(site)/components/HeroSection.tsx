@@ -6,8 +6,9 @@ import Link from "next/link"
 
 const HeroSection = () => {
    return (
-      <div className="flex flex-col items-center justify-center lg:flex-row gap-8 mt-26 mb-31">
-         <div className="lg:flex-5/10 flex items-center relative -top-12 mb-20 lg:mb-0 w-full justify-center">
+      <div className="flex flex-col items-center justify-center lg:flex-row gap-8 mt-9 mb-11">
+         
+         <div className="lg:flex-5/10 flex items-center relative -top-20 lg:mb-0 w-full justify-center">
             {/* <TiltedCard scaleOnHover={1.1} showMobileWarning={false} imageSrc="/alpas-studio-hero-card.png" imageHeight={"100%"} altText="Alpas Studio" /> */}
             <TiltedCard
                imageSrc="/alpas-studio-hero-card.png"
@@ -23,8 +24,9 @@ const HeroSection = () => {
             />
             {/* <Image src="/alpas-studio-hero-card.png" alt="Alpas Studio" width={500} height={500} className="block lg:hidden object-cover" /> */}
          </div>
-         <div className="flex lg:flex-5/10 flex-col gap-4 mr-20">
-            <div className="flex flex-col border border-gray-300 shadow-xl p-8 rounded-2xl gap-2 bg-slate-900/30 backdrop-blur-lg text-white w-full">
+
+         <div className="flex lg:flex-5/10 flex-col gap-4 mr-20 text-xl">
+            <div className="flex flex-col border border-gray-300 shadow-xl p-8 rounded-2xl gap-2 bg-slate-900/30 backdrop-blur-lg text-white w-full ">
                <h1 className="font-semibold">Apa itu Kustom Desain?</h1>
                <p>Butuh desain yang sesuai visi Anda? Di <span className="font-semibold">ALPAS Studio</span>, Anda bisa request desain dari nol untuk brand, produk, atau kampanye digital. Konsultasi langsung dengan desainer, hasil auto maksimal!</p>
                <Link href={"/pemesanan"} className="w-full justify-center flex mt-4 rounded-lg py-1 bg-gray-800/50 hover:bg-gray-800 transition-all">Mulai Kustom Desain</Link>

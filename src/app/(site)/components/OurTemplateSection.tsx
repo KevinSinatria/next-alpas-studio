@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 const OurTemplateSection = () => {
    return (
@@ -37,7 +38,7 @@ const OurTemplateSection = () => {
                </div>
             </main>
             <footer className="w-full flex justify-center">
-               <button className="flex items-center gap-4 bg-slate-800 cursor-pointer hover:bg-slate-700 active:bg-slate-900 transition-all rounded-2xl text-white px-4 py-2">Lihat Selengkapnya <span><ArrowRight size={16} /></span></button>
+               <Link href="/pemesanan" className="flex items-center gap-4 bg-slate-800 cursor-pointer hover:bg-slate-700 active:bg-slate-900 transition-all rounded-2xl text-white px-4 py-2">Lihat Selengkapnya <span><ArrowRight size={16} /></span></Link>
             </footer>
          </div>
       </section>

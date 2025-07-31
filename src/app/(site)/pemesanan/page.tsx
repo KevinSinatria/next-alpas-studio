@@ -5,13 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function PemesananTemplatePage() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const title = searchParams.get("title");
   const [showAlert, setShowAlert] = useState(false);
 
   return (
@@ -20,7 +16,7 @@ export default function PemesananTemplatePage() {
         <div className="w-full text-center md:text-left px-2">
           <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
             <span className="text-5xl sm:text-3xl md:text-4xl font-semibold items-center justify-between flex uppercase">
-              <Link href={"/template"} className="text-5xl font-semibold">
+              <Link href={"/"} className="text-5xl font-semibold">
                 <ArrowLeft />
               </Link>
               <div className="text-2xl font-semibold">FORM PEMESANAN</div>
