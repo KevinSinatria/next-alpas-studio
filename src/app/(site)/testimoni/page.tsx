@@ -12,12 +12,12 @@ type testimoni = {
   rating: number;
   body: string;
 };
-const testimoni = [
+const initialTestimoni = [
   {
     id: 1,
     nama: "waqqir",
     rating: 4,
-    body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku",
+    body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku",
   },
   {
     id: 2,
@@ -44,51 +44,35 @@ const testimoni = [
     body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku",
   },
 ];
-const testiSatu = testimoni.map((testi) => {
-  if (testi.id % 2 === 0) {
-    return (
-      <div key={testi.id} className="w-full flex justify-end mb-4">
-        <div className="max-w-md p-4 flex flex-col gap-4 items-start bg-white/50 backdrop-blur-2xl rounded-2xl">
-          <h3 className="bg-blue-500 text-sm px-4 py-2 text-white rounded-lg">
-            {testi.nama}
-          </h3>
-          <div className="flex gap-2">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="text-yellow-400 fill-yellow-400" size={24} />
-            ))}
-          </div>
-          <p className="italic">{testi.body}</p>
-        </div>
-      </div>
-    );
-  } 
-});
-const testiDua = testimoni.map((testi) => {
-  if (testi.id % 2 === 1) {
-   
-    return (
-      <div key={testi.id} className="w-full flex justify-start mb-4">
-        <div className="max-w-md p-4 flex flex-col gap-4 items-start bg-white/50 backdrop-blur-2xl rounded-2xl">
-          <h3 className="bg-green-500 text-sm px-4 py-2 text-white rounded-lg">
-            {testi.nama || 'Alminetta'}
-          </h3>
-          <div className="flex gap-2">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="text-yellow-400 fill-yellow-400" size={24} />
-            ))}
-          </div>
-          <p className="italic">
-            {testi.body || 'Lorem ipsum dolor sit amet...'}
-          </p>
-        </div>
-      </div>
-    );
-  } 
-});
-
 
 export default function TestimoniPage() {
+  const [testimoni, setTestimoni] = useState<testimoni[]>(initialTestimoni);
+  const [nama, setNama] = useState("");
+  const [rating, setRating] = useState(0);
+  const [body, setBody] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const colors = ["bg-blue-500", "bg-green-500", "bg-yellow-500"];
+
+  const handleSubmit = () => {
+    if (!nama || rating === 0 || !body)
+      return alert("Semua field harus diisi!");
+
+    const newTestimoni: testimoni = {
+      id: testimoni.length + 1,
+      nama,
+      rating,
+      body,
+    };
+
+    setTestimoni([...testimoni, newTestimoni]);
+    setShowAlert(true);
+
+    // reset form
+    setNama("");
+    setRating(0);
+    setBody("");
+  };
+
   return (
     <section className="px-4 sm:px-8 py-8 lg:px-20 w-full">
       <div className="bg-linear-to-b/oklch from-blue-400/20 to-white/50 p-14 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-30 mx-5 ">
@@ -109,19 +93,21 @@ export default function TestimoniPage() {
             <div className="w-full text-center md:text-left px-2">
               <div className="text-sm sm:text-lg md:text-2xl max-w-2xl mx-auto md:mx-0 space-y-5 leading-snug">
                 {showAlert && (
-                  <Alert>
+                  <Alert className="bg-green-100">
                     <CheckCircle2Icon />
                     <AlertTitle>
                       Success! Your changes have been saved
                     </AlertTitle>
                     <AlertDescription>
-                      This is an alert with icon, title and description.
+                      Testimoni berhasil ditambahkan.
                     </AlertDescription>
                   </Alert>
                 )}
 
                 <label className="text-xl mb-4 text-white">Nama</label>
                 <Input
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
                   required
                   className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
                   type="text"
@@ -131,61 +117,66 @@ export default function TestimoniPage() {
                 <label className="text-xl mb-4 text-white">
                   Bintang penilaian
                 </label>
-                <div className="flex">
-                  <Input
-                    required
-                    className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                    type="checkbox"
-                    placeholder="Masukan Nama Mu Disini"
-                  />
-                  <Input
-                    required
-                    className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                    type="checkbox"
-                    placeholder="Masukan Nama Mu Disini"
-                  />
-                  <Input
-                    required
-                    className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                    type="checkbox"
-                    placeholder="Masukan Nama Mu Disini"
-                  />
-                  <Input
-                    required
-                    className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                    type="checkbox"
-                    placeholder="Masukan Nama Mu Disini"
-                  />
-                  <Input
-                    required
-                    className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                    type="checkbox"
-                    placeholder="Masukan Nama Mu Disini"
-                  />
+
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <Star
+                      key={num}
+                      className={`w-8 h-8 cursor-pointer ${
+                        num <= rating
+                          ? "text-yellow-400 fill-yellow-400"
+                          : "text-gray-400"
+                      }`}
+                      onClick={() => setRating(num)}
+                    />
+                  ))}
                 </div>
 
                 <label className="text-xl mb-4 text-white">Ulasan</label>
                 <Textarea
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
                   required
                   className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
                   placeholder="Tuliskan ulasanmu disini"
                 />
-                <Button
-                  className="w-full bg-blue-500"
-                  onClick={() => setShowAlert(true)}
-                >
+
+                <Button className="w-full bg-blue-500" onClick={handleSubmit}>
                   Kirim
                 </Button>
               </div>
             </div>
           </div>
+          <div className="masonry">
+            {testimoni.map((testi, index) => {
+              const randomColor = colors[index % colors.length]; // ganti warna berdasarkan index
 
-          <div className="flex w-full f.ex-wrap gap-8">
-            
-              {/* masukan disini */}
-              {testiSatu}
-              {testiDua}
-            
+              return (
+                <div
+                  key={testi.id}
+                  className="masonry-item p-4 bg-white/50 backdrop-blur-2xl rounded-2xl"
+                >
+                  <h3
+                    className={`${randomColor} text-md px-4 py-2 max-w-30 justify-center items-center flex text-black font-semibold rounded-lg`}
+                  >
+                    {testi.nama || "User "}
+                  </h3>
+                  <div className="flex gap-2 my-2">
+                    {[...Array(testi.rating)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="text-yellow-400 fill-yellow-400"
+                        size={20}
+                      />
+                    ))}
+                  </div>
+                  <p className="italic">
+                    {testi.body ||
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut"}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </main>
       </div>

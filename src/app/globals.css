@@ -28,6 +28,18 @@ body {
    min-width: 100vw;
 }
 
+/* global.css */
+.masonry {
+  column-count: 2; /* jumlah kolom */
+  column-gap: 1.5rem; /* jarak antar kolom */
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+
 @theme {
    --font-poppins: Poppins, sans-serif;
 }
