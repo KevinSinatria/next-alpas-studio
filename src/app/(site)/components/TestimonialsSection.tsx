@@ -1,5 +1,7 @@
 import { Star } from "lucide-react"
 
+
+
 const TestimonialsSection = () => {
    return (
       <section className="flex flex-col justify-center w-full gap-8 px-16">
