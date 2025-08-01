@@ -51,7 +51,7 @@ export default function TestimoniPage() {
   const [rating, setRating] = useState(0);
   const [body, setBody] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-  const colors = ["bg-blue-500", "bg-green-500", "bg-yellow-500"];
+  const colors = ["bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-pink-500"];
 
   const handleSubmit = () => {
     if (!nama || rating === 0 || !body)
