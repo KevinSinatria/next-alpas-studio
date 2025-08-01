@@ -154,7 +154,7 @@ export default function TestimoniPage() {
               return (
                 <div
                   key={testi.id}
-                  className="masonry-item p-4 bg-white/50 backdrop-blur-2xl rounded-2xl"
+                  className="masonry-item p-4 flex flex-col gap-4 items-start bg-white/50 backdrop-blur-2xl rounded-2xl"
                 >
                   <h3
                     className={`${randomColor} text-md px-4 py-2 max-w-30 justify-center items-center flex text-black font-semibold rounded-lg`}

@@ -19,7 +19,7 @@ export default function Navbar() {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Kustom", href: "/pemesanan" },
+    { name: "Kustom", href: "/kustom" },
     { name: "Template", href: "/template" },
     { name: "Testimoni", href: "/testimoni" },
     { name: "Tentang Kami", href: "/tentang-kami" },
