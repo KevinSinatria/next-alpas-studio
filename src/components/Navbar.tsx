@@ -5,8 +5,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-
-export default function Navbar() {
+function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname(); // 🔑 ambil path sekarang
@@ -33,13 +32,15 @@ export default function Navbar() {
       }`}
     >
       <div className="flex justify-between items-center px-6 py-3">
+        <Link href="/">
         <Image
           src="/alpas_icon_hd.svg"
           alt="Logo"
           width={30}
           height={30}
           className="h-12 w-auto"
-        />
+          />
+          </Link>
 
         <div className="hidden md:flex space-x-6">
           {navItems.map((item) => (
@@ -105,3 +106,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default Navbar;
