@@ -8,7 +8,7 @@ const data = {
   datasets: [
     {
       label: "Total Penjualan",
-      data: [15, 20, 10, 7, 10], 
+      data: [15, 20, 10, 32, 10], 
       backgroundColor: [
         "#f87171", 
         "#60a5fa", 
