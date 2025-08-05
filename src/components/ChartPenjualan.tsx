@@ -10,11 +10,11 @@ const data = {
       label: "Total Penjualan",
       data: [15, 20, 10, 32, 10], 
       backgroundColor: [
-        "#f87171", 
-        "#60a5fa", 
-        "#facc15", 
-        "#34d399", 
-        "#a78bfa", 
+        "#fffb97", 
+        "#fe7f42", 
+        "#b32c1a", 
+        "#7a4b47", 
+        "#2a1617",  
       ],
       borderWidth: 0,
       cutout: "70%", 
@@ -24,8 +24,10 @@ const data = {
 
 export default function ChartPenjualan() {
   return (
-    <div className="bg-white/20 backdrop-blur-lg rounded-xl p-4 shadow-lg relative">
-      <h2 className="text-white font-bold text-2xl">Total Penjualan</h2>
+    <div className="bg-red-600/13 h-full backdrop-blur rounded-xl p-4 shadow-lg relative">
+      <div className="flex w-full justify-between">
+        <h2 className="text-white font-bold text-2xl">Total Penjualan</h2>
+      </div>
 
       <div className="flex">
         <div className="mt-35">
@@ -50,6 +52,7 @@ export default function ChartPenjualan() {
               },
             }}
           />
+
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-white font-bold text-lg">62%</span>
           </div>
