@@ -13,10 +13,10 @@ export default function TopBar(){
         Selamat Datang Di Dashboard Admin !
       </div>
       <Image
-        src="/alpas_icon_hd.svg"
+        src="/wonton.png"
         alt="logo"
-        width={40}
-        height={40}
+        width={50}
+        height={50}
       />
     </div>
   )

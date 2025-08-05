@@ -12,7 +12,7 @@ export default function RootLayout({
             <h1>haloo</h1>
          </header> */}
       <TopBar />
-      <main className="flex shadow-lg backdrop-blur bg-gray-800/70 py-5 m-5 rounded-xl border-3 border-gray-400 dark:border-gray-700 justify-between mx-50 items-center mt-10">
+      <main className="flex shadow-lg backdrop-blur bg-gray-800/30 py-5 m-5 rounded-xl border-3 border-gray-400 dark:border-gray-700 justify-between mx-50 items-center mt-10">
         <Sidebar/>
         {children}
       </main>
