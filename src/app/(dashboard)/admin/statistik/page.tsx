@@ -8,7 +8,7 @@ export default function StatistikPage() {
       <Link href="/admin/statistik" className="mb-2">
         <ChartPenjualanStatistik />
       </Link>
-
+ 
       <Link
         href="/admin/statistik"
         className="bg-blue-500/20 backdrop-blur-lg rounded-xl p-4 shadow-lg col-span-2 flex mt-2"
