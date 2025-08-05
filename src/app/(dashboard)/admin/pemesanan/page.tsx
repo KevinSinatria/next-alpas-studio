@@ -1,0 +1,296 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { ChevronRight, Filter } from "lucide-react";
+
+type OrderType = "kustom" | "template";
+
+type Order = {
+  id: string;
+  nama: string;
+  email: string;
+  pesan: string;
+  jenis: OrderType;
+  linkAsset?: string; // hanya terisi untuk kustom
+};
+
+// --- dummy data ---
+const ORDERS: Order[] = [
+  {
+    id: "#1123",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Buatkan design event konser...",
+    jenis: "kustom",
+    linkAsset: "https://drive.google.com/xxx",
+  },
+  {
+    id: "#1124",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Coba buat desain banner utk...",
+    jenis: "kustom",
+    linkAsset: "https://drive.google.com/yyy",
+  },
+  {
+    id: "#1125",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Pilih template poster modern",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+  {
+    id: "#1126",
+    nama: "Wonyoung",
+    email: "herewony@gmail.com",
+    pesan: "Template feed IG minimalis",
+    jenis: "template",
+  },
+];
+
+export default function OrdersTable() {
+  const [openFilter, setOpenFilter] = useState(false);
+  const [filter, setFilter] = useState<OrderType | "all">("all");
+
+  const data = useMemo(() => {
+    if (filter === "all") return ORDERS;
+    return ORDERS.filter((o) => o.jenis === filter);
+  }, [filter]);
+
+  const showLinkColumn = filter !== "template"; // kalau template, sembunyikan kolom link
+
+  return (
+    <div className="relative mx-auto w-full max-w-6xl bg-white/40 rounded-2xl">
+      {/* Kartu glass utama */}
+      <div className="relative rounded-[28px] border border-white/25 bg-white/10 shadow-2xl backdrop-blur-xl">
+        {/* Header section */}
+        <div className="flex items-center justify-between p-5">
+          <div className="text-gray-700 text-lg font-semibold tracking-wide">
+            Pemesanan
+          </div>
+
+          {/* Filter button + popover */}
+          <div className="relative">
+            <button
+              onClick={() => setOpenFilter((v) => !v)}
+              className="group flex items-center gap-2 rounded-full border border-white/30 bg-gray-600/30 px-4 py-2 text-white/90 hover:bg-white/20 transition"
+            >
+              <Filter size={18} />
+              <span className="text-sm">Filter</span>
+              <ChevronRight
+                size={18}
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </button>
+
+            {openFilter && (
+              <div
+                onMouseLeave={() => setOpenFilter(false)}
+                className="absolute right-0 mt-2 w-40 rounded-2xl border border-gray-600/30 bg-gray-500/65 p-2 shadow-xl backdrop-blur-xl z-50"
+              >
+                <button
+                  onClick={() => {
+                    setFilter("kustom");
+                    setOpenFilter(false);
+                  }}
+                  className={`w-full rounded-xl px-3 py-2 text-left text-sm text-white/90 hover:bg-gray-600/20 ${
+                    filter === "kustom" ? "ring-1 ring-white/40" : ""
+                  }`}
+                >
+                  Kustom
+                </button>
+                <button
+                  onClick={() => {
+                    setFilter("template");
+                    setOpenFilter(false);
+                  }}
+                  className={`mt-1 w-full rounded-xl px-3 py-2 text-left text-sm text-white/90 hover:bg-gray-600/20 ${
+                    filter === "template" ? "ring-1 ring-white/40" : ""
+                  }`}
+                >
+                  Template
+                </button>
+                <button
+                  onClick={() => {
+                    setFilter("all");
+                    setOpenFilter(false);
+                  }}
+                  className={`mt-1 w-full rounded-xl px-3 py-2 text-left text-sm text-white/90 hover:bg-gray-600/20 ${
+                    filter === "all" ? "ring-1 ring-white/40" : ""
+                  }`}
+                >
+                  Semua
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="px-5 pb-5">
+          <div className="overflow-hidden rounded-2xl border border-white/20">
+            {/* Scroll container */}
+            <div className="max-h-[400px] overflow-y-auto">
+              <table className="w-full table-fixed">
+                <thead className="sticky top-0 bg-gray-600/10 text-white/90 z-10">
+                  <tr className="text-left text-sm">
+                    <Th className="w-24">Pesanan</Th>
+                    <Th className="w-36">Nama</Th>
+                    <Th className="w-60">Email</Th>
+                    <Th className="w-auto">Pesan</Th>
+                    {showLinkColumn && <Th className="w-64">Link Asset</Th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((o, idx) => (
+                    <tr
+                      key={o.id + idx}
+                      className={`text-sm text-white/90 ${
+                        idx % 2 === 0 ? "bg-gray-800/29" : "bg-white/0"
+                      }`}
+                    >
+                      <Td>{o.id}</Td>
+                      <Td className="font-medium">{o.nama}</Td>
+                      <Td className="truncate">{o.email}</Td>
+                      <Td className="truncate">{o.pesan}</Td>
+                      {showLinkColumn && (
+                        <Td>
+                          {o.jenis === "kustom" && o.linkAsset ? (
+                            <Link
+                              href={o.linkAsset}
+                              target="_blank"
+                              className="underline underline-offset-2 hover:opacity-80"
+                            >
+                              {o.linkAsset}
+                            </Link>
+                          ) : (
+                            <span className="text-white/50">-</span>
+                          )}
+                        </Td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Footer sudut bulat bawah biar mirip figma */}
+          <div className="pointer-events-none h-6 rounded-b-[28px] bg-gradient-to-b from-transparent to-white/10" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Th({
+  children,
+  className = "",
+}: React.PropsWithChildren<{ className?: string }>) {
+  return (
+    <th className={`px-4 py-3 font-semibold ${className}`}>
+      <div className="flex items-center gap-2">
+        <span>{children}</span>
+      </div>
+    </th>
+  );
+}
+
+function Td({
+  children,
+  className = "",
+}: React.PropsWithChildren<{ className?: string }>) {
+  return <td className={`px-4 py-3 align-middle ${className}`}>{children}</td>;
+}

@@ -52,7 +52,7 @@ export default function ChartPenjualanStatistik() {
 
       </div>
       <div className="">
-        <div className="w-52 h-52 mx-auto mt-4 relative">
+        <div className="w-52 h-52 mx-auto mt-4 mr-40 relative">
           <h1 className="w-60 justify-center text-xl text-white">Persentase Penjualan</h1>
           <div className="ml-10">
           <Doughnut
