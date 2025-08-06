@@ -63,7 +63,7 @@ const DashboardPage = () => {
 
       <ScrollArea className="h-64 rounded-md">
         <div className="bg-white/50 backdrop-blur-lg rounded-xl p-4 shadow-lg">
-          <h2 className="text-white font-semibold mb-4">Testimoni</h2>
+          <h2 className="text-white font-semibold mb-4 ">Testimoni</h2>
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="bg-white/30 rounded-lg p-3 mb-3">
               <p className="font-bold text-blue-600">Alminetta001</p>

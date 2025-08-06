@@ -224,7 +224,7 @@ export default function OrdersTable() {
             {/* Scroll container */}
             <div className="max-h-[400px] overflow-y-auto">
               <table className="w-full table-fixed">
-                <thead className="sticky top-0 bg-gray-600/10 text-white/90 z-10">
+                <thead className="sticky top-0 bg-gray-600 text-white/90 z-10">
                   <tr className="text-left text-sm">
                     <Th className="w-24">Pesanan</Th>
                     <Th className="w-36">Nama</Th>

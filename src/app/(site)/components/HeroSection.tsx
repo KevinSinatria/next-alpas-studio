@@ -29,7 +29,7 @@ const HeroSection = () => {
             <div className="flex flex-col border border-gray-300 shadow-xl p-8 rounded-2xl gap-2 bg-slate-900/30 backdrop-blur-lg text-white w-full ">
                <h1 className="font-semibold">Apa itu Kustom Desain?</h1>
                <p>Butuh desain yang sesuai visi Anda? Di <span className="font-semibold">ALPAS Studio</span>, Anda bisa request desain dari nol untuk brand, produk, atau kampanye digital. Konsultasi langsung dengan desainer, hasil auto maksimal!</p>
-               <Link href={"/pemesanan"} className="w-full justify-center flex mt-4 rounded-lg py-1 bg-gray-800/50 hover:bg-gray-800 transition-all">Mulai Kustom Desain</Link>
+               <Link href={"/kustom"} className="w-full justify-center flex mt-4 rounded-lg py-1 bg-gray-800/50 hover:bg-gray-800 transition-all">Mulai Kustom Desain</Link>
             </div>
             <div className="flex flex-col border border-gray-300 shadow-xl p-8 rounded-2xl gap-4 bg-slate-900/30 backdrop-blur-lg text-white w-full">
                <h1 className="font-semibold">Kenapa harus ALPAS Studio?</h1>
