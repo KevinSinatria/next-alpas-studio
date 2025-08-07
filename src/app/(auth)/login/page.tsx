@@ -41,7 +41,7 @@ const LoginPage = () => {
    }
 
    return (
-      <div className="bg-image flex flex-col items-center justify-center w-full px-8 h-screen">
+      <div className="flex flex-col items-center justify-center w-full px-8 h-screen">
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-4 bg-white/20 rounded-lg shadow-lg backdrop-blur p-8 w-full max-w-xl">
                <header className="w-full flex items-center justify-center">
