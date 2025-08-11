@@ -1,4 +1,4 @@
 export const INITIAL_LOGIN_FORM = {
-  email: '',
+  username: '',
   password: '',
 };
