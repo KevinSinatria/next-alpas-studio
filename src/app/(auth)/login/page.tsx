@@ -3,7 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { INITIAL_LOGIN_FORM } from "@/constants/auth-constant";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { Eye, EyeClosed, Mail } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -28,15 +30,21 @@ const loginFormSchema = z.object({
 const LoginPage = () => {
    const form = useForm<z.infer<typeof loginFormSchema>>({
       resolver: zodResolver(loginFormSchema),
-      defaultValues: {
-         username: "",
-         password: "",
-      }
+      defaultValues: INITIAL_LOGIN_FORM
    });
    const [showPassword, setShowPassword] = useState(false);
 
    function onSubmit(values: z.infer<typeof loginFormSchema>) {
+   
       console.log("Form submitted with values:", values);
+      if (values.username  == 'waqqir' && values.password == 'waqqir2101'){
+         console.log("login berasil");
+         return window.location.href = '/admin';
+      }
+      else {
+         console.log("login gagal");
+         return; 
+      }
       // Handle login logic here
    }
 
