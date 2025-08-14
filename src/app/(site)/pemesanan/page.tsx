@@ -11,67 +11,79 @@ export default function PemesananTemplatePage() {
   const [showAlert, setShowAlert] = useState(false);
 
   return (
-    <section className="px-4 sm:px-8 py-8 lg:px-20 w-full">
-      <header className="bg-linear-to-b/oklch from-slate-700/40 to-gray-400/80 p-10 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-30 mx-120">
-        <div className="w-full text-center md:text-left px-2">
-          <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
-            <span className="text-5xl sm:text-3xl md:text-4xl font-semibold items-center justify-between flex uppercase">
-              <Link href={"/"} className="text-5xl font-semibold">
-                <ArrowLeft />
-              </Link>
-              <div className="text-2xl font-semibold">FORM PEMESANAN</div>
-              <div className="text-4xl font-semibold"></div>
-            </span>
-            <div className="text-sm sm:text-lg md:text-2xl max-w-2xl mx-auto md:mx-0 space-y-5 leading-snug">
-              {showAlert && (
-                <Alert>
-                  <CheckCircle2Icon />
-                  <AlertTitle>Success! Your changes have been saved</AlertTitle>
-                  <AlertDescription>
-                    This is an alert with icon, title and description.
-                  </AlertDescription>
-                </Alert>
-              )}
+    <section className="px-10 sm:px-8 sm:py-20 py-10 lg:px-20 w-full">
+      <header className="bg-linear-to-b/oklch from-slate-700/40 to-gray-400/80 p-6 sm:p-10 rounded-3xl backdrop-blur mt-10 max-w-4xl mx-auto">
+        <div className="w-full text-center md:text-left">
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <Link href={"/"} className="text-white text-3xl sm:text-4xl">
+              <ArrowLeft />
+            </Link>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white uppercase">
+              FORM PEMESANAN
+            </h2>
+            <div className="w-8" /> 
+          </div>
 
-              <label className="text-xl mb-4">Nama</label>
+          <div className="space-y-5">
+            {showAlert && (
+              <Alert>
+                <CheckCircle2Icon />
+                <AlertTitle>Success! Your changes have been saved</AlertTitle>
+                <AlertDescription>
+                  This is an alert with icon, title and description.
+                </AlertDescription>
+              </Alert>
+            )}
+
+            <div className="space-y-2">
+              <label className="text-base sm:text-lg text-white">Nama</label>
               <Input
                 required
-                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
+                className="bg-white/80 text-base sm:text-lg  font-semibold h-12 text-gray-800"
                 type="text"
-                placeholder="Masukan Nama Mu Disini"
+                placeholder="Masukkan nama Anda di sini"
               />
-
-              <label className="text-xl mb-4">Email/No Hp</label>
-              <Input
-                required
-                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                type="text"
-                placeholder="Masukan Nama Mu Disini"
-              />
-
-              <label className="text-xl mb-4">Pesan</label>
-              <Textarea
-                required
-                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                placeholder="Masukkan pesan kustom dari desain (Misalkan: Buatkan aku desain feed instagram 
-dengan style modern minimalist dominan warna biru dengan font khusus Monsterrat)"
-              />
-
-              <label className="text-xl mb-4">Link Asset</label>
-              <Textarea
-                required
-                className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
-                placeholder="Masukkan link foto maupun logo yang perlu dimasukkan kedalam desain (Disarankan berbentuk tautan google drive)"
-              />
-
-              <Button onClick={() => setShowAlert(true)}>
-                Tampilkan Alert
-              </Button>
             </div>
-          </h2>
+
+            <div className="space-y-2">
+              <label className="text-base sm:text-lg text-white">Email / No HP</label>
+              <Input
+                required
+                className="bg-white/80 text-base sm:text-lg font-semibold h-12 text-gray-800"
+                type="text"
+                placeholder="Masukkan email atau nomor HP Anda"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-base sm:text-lg text-white">Pesan</label>
+              <Textarea
+                required
+                rows={5}
+                className="bg-white/80 text-base sm:text-lg font-semibold text-gray-800"
+                placeholder="Masukkan pesan kustom desain (Misal: Buatkan desain feed Instagram dengan style modern minimalist dominan warna biru dan font Monsterrat)"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-base sm:text-lg text-white">Link Asset</label>
+              <Textarea
+                required
+                rows={4}
+                className="bg-white/80 text-base sm:text-lg font-semibold text-gray-800"
+                placeholder="Masukkan link foto atau logo (Disarankan Google Drive)"
+              />
+            </div>
+
+            <Button
+              className="w-full sm:w-auto"
+              onClick={() => setShowAlert(true)}
+            >
+              Tampilkan Alert
+            </Button>
+          </div>
         </div>
       </header>
-      <main className="w-full m-20"></main>
     </section>
   );
 }

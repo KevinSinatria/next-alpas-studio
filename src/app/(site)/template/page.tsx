@@ -82,7 +82,6 @@ const templates = [
   },
 ];
 
-
 export default function TemplatePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [showFormTemplate, setShowFormTemplate] = useState(false);
@@ -127,7 +126,7 @@ export default function TemplatePage() {
           onBack={() => setShowFormTemplate(false)}
         />
       ) : (
-        <div className="w-full flex flex-col bg-linear-to-b/oklch from-slate-700/40 to-gray-400/70 p-10 sm:p-8 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-50  sm:mt-20">
+        <div className="w-full flex flex-col bg-linear-to-b/oklch from-slate-700/40 to-gray-400/70 p-10 sm:p-8 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-20 sm:mt-20">
           <header className="w-full text-center md:text-left px-2">
             <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
               <span className="text-xl sm:text-3xl md:text-4xl font-semibold uppercase">
@@ -140,7 +139,7 @@ export default function TemplatePage() {
             </h2>
           </header>
 
-          <main className="w-full m-20">
+          <main className="w-full m-10">
             <div
               className="grid gap-6 sm:gap-8 md:gap-10 
                           grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
