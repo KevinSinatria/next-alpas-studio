@@ -8,12 +8,12 @@ const HeroSection = () => {
   return (
     <div className="flex flex-wrap items-start justify-center gap-8 mt-9 mb-11 px-4">
       {/* Bagian Gambar */}
-      <div className="flex justify-center flex-shrink-0 min-w-[280px] sm:min-w-[320px] lg:min-w-[400px]">
+      <div className="flex justify-center flex-shrink-0 min-w-[280px] md:min-w-[360] sm:min-w-[320px] lg:min-w-[400px] mb-75">
         <TiltedCard
           imageSrc="/alpas-studio-hero-card.png"
           containerHeight="380px"
           containerWidth="100%"
-          imageHeight="580px"
+          imageHeight="640px"
           imageWidth="480px"
           rotateAmplitude={12}
           scaleOnHover={1.2}
@@ -24,7 +24,7 @@ const HeroSection = () => {
       </div>
 
       {/* Bagian Teks */}
-      <div className="flex flex-col gap-4 min-w-[280px] sm:min-w-[320px] lg:max-w-[500px] text-base sm:text-lg md:text-xl">
+      <div className="flex flex-col gap-4 min-w-[280px] sm:min-w-[320px] mt-5 lg:max-w-[700px] text-base sm:text-lg md:text-xl">
         {/* Card Kustom Desain */}
         <div className="flex flex-col border border-gray-300 shadow-xl p-6 sm:p-8 rounded-2xl gap-2 bg-slate-900/30 backdrop-blur-lg text-white">
           <h1 className="font-semibold text-lg sm:text-xl md:text-2xl">

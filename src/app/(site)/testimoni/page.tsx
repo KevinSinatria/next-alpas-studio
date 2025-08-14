@@ -51,7 +51,13 @@ export default function TestimoniPage() {
   const [rating, setRating] = useState(0);
   const [body, setBody] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-  const colors = ["bg-[#FADA7A]", "bg-[#A5B68D]", "bg-[#93BFCF]", "bg-[#F4BFBF]", "bg-[#C5B0CD], bg-[#DA6C6C]"];
+  const colors = [
+    "bg-[#FADA7A]",
+    "bg-[#A5B68D]",
+    "bg-[#93BFCF]",
+    "bg-[#F4BFBF]",
+    "bg-[#C5B0CD], bg-[#DA6C6C]",
+  ];
 
   const handleSubmit = () => {
     if (!nama || rating === 0 || !body)
@@ -91,7 +97,7 @@ export default function TestimoniPage() {
         <main className="w-full">
           <div className="bg-gray-800/70 p-10 rounded-3xl backdrop-blur gap-6 items-center justify-center mb-20">
             <div className="w-full text-center md:text-left px-2">
-              <div className="text-sm sm:text-lg md:text-2xl max-w-2xl mx-auto md:mx-0 space-y-5 leading-snug">
+              <div className=" max-w-2xl mx-auto md:mx-0 space-y-5 leading-snug">
                 {showAlert && (
                   <Alert className="bg-green-100">
                     <CheckCircle2Icon />
@@ -109,7 +115,7 @@ export default function TestimoniPage() {
                   value={nama}
                   onChange={(e) => setNama(e.target.value)}
                   required
-                  className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
+                  className="bg-white/80 text-sm sm:text-lg font-semibold h-13 text-gray-800"
                   type="text"
                   placeholder="Masukan Nama Mu Disini"
                 />
@@ -118,7 +124,7 @@ export default function TestimoniPage() {
                   Bintang penilaian
                 </label>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 justify-center sm:justify-start">
                   {[1, 2, 3, 4, 5].map((num) => (
                     <Star
                       key={num}
@@ -137,7 +143,7 @@ export default function TestimoniPage() {
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
                   required
-                  className="bg-white/80 text-2xl font-semibold h-13 text-gray-800"
+                  className="bg-white/80 text-sm sm:text-lg font-semibold h-13 text-gray-800"
                   placeholder="Tuliskan ulasanmu disini"
                 />
 

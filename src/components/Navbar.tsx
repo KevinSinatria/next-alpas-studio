@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const pathname = usePathname(); // 🔑 ambil path sekarang
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -23,6 +24,7 @@ function Navbar() {
     { name: "Testimoni", href: "/testimoni" },
     { name: "Tentang Kami", href: "/tentang-kami" },
   ];
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -33,34 +35,53 @@ function Navbar() {
     >
       <div className="flex justify-between items-center px-6 py-3">
         <Link href="/">
-        <Image
-          src="/alpas_icon_hd.svg"
-          alt="Logo"
-          width={30}
-          height={30}
-          className="h-12 w-auto"
+          <Image
+            src="/alpas_icon_hd.svg"
+            alt="Logo"
+            width={30}
+            height={30}
+            className="h-12 w-auto"
           />
-          </Link>
+        </Link>
 
-        <div className="hidden md:flex space-x-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`px-3 py-2 transition-colors h-10 ${
-                pathname === item.href
-                  ? "text-white bg-blue-600/40 rounded-2xl font-semibold"
-                  : "hover:border-b-2 text-white border-blue-600/40  "
-              }`}
-            >
-              <div className="[text-shadow:_0_1px_2px]">
+        {/* Desktop menu */}
+        <div className="hidden md:flex space-x-6 relative">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="relative px-3 py-2 h-10"
+              >
+                {/* Background animasi */}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNav" // ini bikin transisi halus
+                      className="absolute inset-0 bg-blue-600/40 rounded-2xl"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
+                </AnimatePresence>
 
-              {item.name}
-              </div>
-            </Link>
-          ))}
+                {/* Text */}
+                <span
+                  className={`relative z-10 ${
+                    isActive ? "text-white font-semibold" : "text-white"
+                  }`}
+                >
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
         </div>
 
+        {/* Mobile menu button */}
         <button
           onClick={() => setOpen(!open)}
           className="relative w-10 h-8 flex flex-col justify-between items-center md:hidden"
@@ -83,6 +104,7 @@ function Navbar() {
         </button>
       </div>
 
+      {/* Mobile menu */}
       <div
         className={`flex flex-col md:hidden bg-white dark:bg-gray-800 overflow-hidden transition-all duration-300 ${
           open ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
@@ -108,3 +130,4 @@ function Navbar() {
 }
 
 export default Navbar;
+  
