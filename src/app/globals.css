@@ -18,6 +18,16 @@ body {
    min-width: 100vw;
 }
 
+.bg-image-login{
+   background-image: url('/alpas-bg.png');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   min-height: 100vh;
+   min-width: 100vw;
+}
+
 .bg-image-customer{
    background-image: url('/alpas-bg-customer.png');
    background-size: cover;

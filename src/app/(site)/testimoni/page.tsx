@@ -3,50 +3,38 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createClient } from "@/lib/supabase/client";
 import { CheckCircle2Icon, Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type testimoni = {
+
+type Testimoni = {
   id: number;
-  nama: string;
-  rating: number;
+  author: string;
+  rate: number;
   body: string;
 };
-const initialTestimoni = [
-  {
-    id: 1,
-    nama: "waqqir",
-    rating: 4,
-    body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku web ini sangat membantu sekali untuk mempromosikan bisnis aku",
-  },
-  {
-    id: 2,
-    nama: "Panji",
-    rating: 2,
-    body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku",
-  },
-  {
-    id: 3,
-    nama: "Azzam",
-    rating: 1,
-    body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku",
-  },
-  {
-    id: 4,
-    nama: "alya",
-    rating: 5,
-    body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku",
-  },
-  {
-    id: 5,
-    nama: "Syifa",
-    rating: 5,
-    body: "web ini sangat membantu sekali untuk mempromosikan bisnis aku",
-  },
-];
+
+const supabase = createClient();
+
 
 export default function TestimoniPage() {
-  const [testimoni, setTestimoni] = useState<testimoni[]>(initialTestimoni);
+  const [testimoni, setTestimoni] = useState<Testimoni[]>([]);
+  
+  useEffect(() => {
+    const fetchTestimoni = async () => {
+      const { data, error } = await supabase
+        .from("comments")
+        .select("*");
+      if (error) {
+        console.error("Error fetching comments:", error.message);
+      } else {
+        setTestimoni(data as Testimoni[]);
+      }
+    };
+  
+    fetchTestimoni();
+  }, []);
   const [nama, setNama] = useState("");
   const [rating, setRating] = useState(0);
   const [body, setBody] = useState("");
@@ -58,30 +46,40 @@ export default function TestimoniPage() {
     "bg-[#F4BFBF]",
     "bg-[#C5B0CD], bg-[#DA6C6C]",
   ];
+const listRef = useRef<HTMLDivElement>(null);
+const handleSubmit = async () => {
+  if (!nama || rating === 0 || !body)
+    return alert("Semua field harus diisi!");
 
-  const handleSubmit = () => {
-    if (!nama || rating === 0 || !body)
-      return alert("Semua field harus diisi!");
+  const { data, error } = await supabase.from("comments").insert([
+    {
+      author: nama,
+      rate: rating,
+      body: body,
+    },
+  ]).select(); // pastikan .select() agar dapat data balik
 
-    const newTestimoni: testimoni = {
-      id: testimoni.length + 1,
-      nama,
-      rating,
-      body,
-    };
+  if (error || !data || data.length === 0) {
+    console.error("Insert error:", error?.message);
+    alert("Gagal menyimpan testimoni.");
+    return;
+  }
 
-    setTestimoni([...testimoni, newTestimoni]);
-    setShowAlert(true);
+  setTestimoni([...testimoni, data[0]]);
+  setShowAlert(true);
+    if (showAlert && listRef.current) {
+    listRef.current.scrollIntoView({ behavior: "smooth" });
+  }
 
-    // reset form
-    setNama("");
-    setRating(0);
-    setBody("");
-  };
+  setNama("");
+  setRating(0);
+  setBody("");
+};
+
 
   return (
-    <section className="px-4 sm:px-8 py-8 lg:px-20 w-full">
-      <div className="bg-linear-to-b/oklch from-blue-400/20 to-white/50 p-14 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-30 mx-5 ">
+    <section className=" py-8 lg:px-20 w-full">
+      <div className="bg-linear-to-b/oklch from-blue-400/20 to-white/50 p-4 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-30 mx-5 ">
         <header className="w-full text-center md:text-left px-2 mb-10">
           <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
             <span className="text-xl sm:text-3xl md:text-4xl font-semibold uppercase">
@@ -154,36 +152,38 @@ export default function TestimoniPage() {
             </div>
           </div>
           <div className="masonry">
-            {testimoni.map((testi, index) => {
-              const randomColor = colors[index % colors.length]; // ganti warna berdasarkan index
-
-              return (
-                <div
-                  key={testi.id}
-                  className="masonry-item p-4 flex flex-col gap-4 items-start bg-white/50 backdrop-blur-2xl rounded-2xl"
+        {testimoni.length === 0 ? (
+          <p className="text-center text-gray-500 italic">
+            Belum ada testimoni.
+          </p>
+        ) : (
+          testimoni.map((testi, index) => {
+            const color = colors[index % colors.length];
+            return (
+              <div
+                key={testi.id}
+                className="masonry-item p-4 flex flex-col gap-4 items-start bg-white/50 backdrop-blur-2xl rounded-2xl"
+              >
+                <h3
+                  className={`${color} text-md px-4 py-2 max-w-30 justify-center items-center flex text-black font-semibold rounded-lg`}
                 >
-                  <h3
-                    className={`${randomColor} text-md px-4 py-2 max-w-30 justify-center items-center flex text-black font-semibold rounded-lg`}
-                  >
-                    {testi.nama || "User "}
-                  </h3>
-                  <div className="flex gap-2 my-2">
-                    {[...Array(testi.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="text-yellow-400 fill-yellow-400"
-                        size={20}
-                      />
-                    ))}
-                  </div>
-                  <p className="italic">
-                    {testi.body ||
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut"}
-                  </p>
+                  {testi.author || "User"}
+                </h3>
+                <div className="flex gap-2 my-2">
+                  {[...Array(testi.rate)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="text-yellow-400 fill-yellow-400"
+                      size={20}
+                    />
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+                <p className="italic">{testi.body}</p>
+              </div>
+            );
+          })
+        )}
+      </div>
         </main>
       </div>
     </section>

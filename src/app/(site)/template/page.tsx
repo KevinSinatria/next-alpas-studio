@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   HoverCard,
@@ -8,79 +8,19 @@ import {
 } from "@/components/ui/hover-card";
 import { Button } from "@/components/ui/button";
 import PemesananTemplate from "@/components/FormPemesananTemplate";
+import { createClient } from "@/lib/supabase/client";
 
-const templates = [
-  {
-    id: 1,
-    image: "/ourtemplates/template1.png",
-    alt: "template1",
-    title: "Blue instagram content template",
-    dekskription:
-      "Template untuk konten Instagram dengan tema biru yang siap pakaiskjakdhakdhkajshjhkjkxhjzcyakhjslakjdakjsdlk.",
-    price: "31.700,-",
-    gambar: [
-      "/ourtemplates/template1.png",
-      "/ourtemplates/template1_2.png",
-      "/ourtemplates/template1_3.png",
-    ],
-  },
-  {
-    id: 2,
-    image: "/ourtemplates/template2.png",
-    alt: "template2",
-    title: "Green instagram content template",
-    dekskription:
-      "Template untuk konten Instagram dengan tema hijau yang siap pakai.",
-    price: "29.900,-",
-    gambar: [
-      "/ourtemplates/template2.png",
-      "/ourtemplates/template1.png",
-      "/ourtemplates/template3.png",
-    ],
-  },
-  {
-    id: 3,
-    image: "/ourtemplates/template3.png",
-    alt: "template3",
-    title: "Red instagram content template",
-    dekskription:
-      "Template untuk konten Instagram dengan tema merah yang siap pakai.",
-    price: "35.000,-",
-    gambar: [
-      "/ourtemplates/template3.png",
-      "/ourtemplates/template1.png",
-      "/ourtemplates/template2.png",
-    ],
-  },
-  {
-    id: 4,
-    image: "/ourtemplates/template1.png",
-    alt: "template4",
-    title: "Yellow instagram content template",
-    dekskription:
-      "Template untuk konten Instagram dengan tema kuning yang siap pakai.",
-    price: "28.500,-",
-    gambar: [
-      "/ourtemplates/template3.png",
-      "/ourtemplates/template1.png",
-      "/ourtemplates/template2.png",
-    ],
-  },
-  {
-    id: 5,
-    image: "/ourtemplates/template2.png",
-    alt: "template5",
-    title: "Purple instagram content template",
-    dekskription:
-      "Template untuk konten Instagram dengan tema ungu yang siap pakai.",
-    price: "33.000,-",
-    gambar: [
-      "/ourtemplates/template3.png",
-      "/ourtemplates/template1.png",
-      "/ourtemplates/template2.png",
-    ],
-  },
-];
+type Template = {
+  id: number;
+  title: string;
+  price: number;
+  image_url: string;
+  image_url_2?: string;
+  image_url_3?: string;
+  deks?: string;
+};
+
+const supabase = createClient();
 
 export default function TemplatePage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,7 +34,26 @@ export default function TemplatePage() {
     price: string;
     gambar: string[];
   } | null>(null);
-  const itemsPerPage = 5;
+  const [templates, setTemplates] = useState<Template[]>([]);
+  
+    useEffect(() => {
+      const fetchTemplates = async () => {
+        const { data, error } = await supabase.from("templates").select("*");
+  
+        if (error) {
+          console.error("Error fetching templates:", error.message);
+        } else {
+          setTemplates(data);
+        }
+      };
+  
+      fetchTemplates();
+    }, []);
+  
+    const supabaseUrl =
+      "https://bmgeuqxyshumafaxsauc.supabase.co/storage/v1/object/public/";
+  
+  const itemsPerPage = 8;
 
   const totalPages = Math.ceil(templates.length / itemsPerPage);
 
@@ -145,81 +104,93 @@ export default function TemplatePage() {
                           grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
                           justify-center items-start w-full px-2 sm:px-4"
             >
-              {currentItems.map((template) => (
-                <div
-                  key={template.id}
-                  className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
-                >
-                  <HoverCard>
-                    <HoverCardContent className="mx-5">
-                      <div className="flex flex-col gap-4">
-                        <div className="flex ">
-                          {template.gambar &&
-                            template.gambar.map((img, index) => (
-                              <Image
-                                key={index}
-                                src={img}
-                                alt={template.alt}
-                                width={200}
-                                height={200}
-                                className=" rounded-2xl"
-                              />
-                            ))}
-                        </div>
-                        <div className="flex">
-                          <div className="flex flex-col">
-                            <h1 className="text-xl font-semibold ">
-                              {template.title}
-                            </h1>
-                            <h5>{template.dekskription}</h5>
-                          </div>
-                          <div className="flex gap-1 items-start mt-1">
-                            <span className="text-xs bg-green-200 px-1 rounded-lg">
-                              Rp
-                            </span>
-                            <span className="font-semibold text-lg sm:text-2xl">
-                              {template.price}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </HoverCardContent>
-                    <HoverCardTrigger asChild>
-                      <Image
-                        src={template.image}
-                        alt={template.alt}
-                        width={500}
-                        height={500}
-                        className="object-cover w-full h-auto rounded-2xl"
-                      />
-                    </HoverCardTrigger>
-                  </HoverCard>
-                  <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
-                    {template.title.length > 50
-                      ? template.title.substring(0, 50) + "..."
-                      : template.title}
-                  </h2>
-                  <div className="flex gap-1 items-start mt-1">
-                    <span className="text-xs bg-green-200 px-1 rounded-lg">
-                      Rp
-                    </span>
-                    <span className="font-semibold text-lg sm:text-2xl">
-                      {template.price}
-                    </span>
-                  </div>
-                  <Button
-                    className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base"
-                    onClick={() => {
-                      setSelectedTemplate(template);
-                      setShowFormTemplate(true);
-                    }}
-                  >
-                    <span className="drop-shadow-lg font-semibold">
-                      Order Now
-                    </span>
-                  </Button>
-                </div>
+              {currentItems.map((template) => {
+  const imageUrls = [
+    template.image_url,
+    template.image_url_2,
+    template.image_url_3,
+  ].filter(Boolean) as string[];
+
+  return (
+    <div
+      key={template.id}
+      className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
+    >
+      <HoverCard>
+        <HoverCardContent className="mx-5">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap gap-2">
+              {imageUrls.map((img, index) => (
+                <Image
+                  key={index}
+                  src={supabaseUrl + img.trim()}
+                  alt={template.title}
+                  width={200}
+                  height={200}
+                  className="rounded-2xl"
+                  unoptimized
+                />
               ))}
+            </div>
+            <div className="flex justify-between">
+              <div className="flex flex-col">
+                <h1 className="text-xl font-semibold">{template.title}</h1>
+                <h5>{template.deks}</h5>
+              </div>
+              <div className="flex gap-1 items-start mt-1">
+                <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span>
+                <span className="font-semibold text-lg sm:text-2xl">
+                  {template.price.toLocaleString("id-ID")}
+                </span>
+              </div>
+            </div>
+          </div>
+        </HoverCardContent>
+        <HoverCardTrigger asChild>
+          <Image
+            src={supabaseUrl + template.image_url.trim()}
+            alt={template.title}
+            width={500}
+            height={500}
+              className="object-cover aspect-[4/5] w-full h-[300px] rounded-2xl"
+            unoptimized
+          />
+        </HoverCardTrigger>
+      </HoverCard>
+
+      <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
+        {template.title.length > 50
+          ? template.title.substring(0, 50) + "..."
+          : template.title}
+      </h2>
+      <div className="flex gap-1 items-start mt-1">
+        <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span>
+        <span className="font-semibold text-lg sm:text-2xl">
+          {template.price.toLocaleString("id-ID")}
+        </span>
+      </div>
+
+      <Button
+        className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base"
+        onClick={() => {
+          setSelectedTemplate({
+            id: template.id,
+            image: supabaseUrl + template.image_url,
+            alt: template.title,
+            title: template.title,
+            dekskription: template.deks || "",
+            price: template.price.toString(),
+            gambar: imageUrls.map((img) => supabaseUrl + img),
+          });
+          setShowFormTemplate(true);
+        }}
+      >
+        <span className="drop-shadow-lg font-semibold">Order Now</span>
+      </Button>
+    </div>
+  );
+})}
+
             </div>
           </main>
 

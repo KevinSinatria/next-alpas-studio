@@ -4,6 +4,7 @@ import { Home, BarChart2, ClipboardList, MessageSquare, LogOut } from "lucide-re
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { Button } from "./ui/button";
 
 // util kecil untuk gabung class
 function cn(...classes: (string | undefined | false)[]): string {
@@ -18,6 +19,11 @@ function isActive(
 ): boolean {
   if (exact) return pathname === href;
   return pathname === href || pathname.startsWith(href + "/");
+}
+
+function handleLogout() {
+  document.cookie = "isLoggedIn=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  window.location.href = "/";
 }
 
 export default function Sidebar() {
@@ -66,12 +72,12 @@ export default function Sidebar() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
         >
-          <Link
-            href="/"
+          <button
+            onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-500/20 transition"
           >
             <LogOut size={20} /> Logout
-          </Link>
+          </button>
         </motion.div>
       </div>
     </aside>
