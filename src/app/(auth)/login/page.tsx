@@ -19,6 +19,7 @@ import Image from "next/image";
 import { useState } from "react";
 // import type { Metadata } from "next";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 // export const metadata: Metadata = {
@@ -55,10 +56,9 @@ const LoginPage = () => {
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.error || "Login gagal!");
+      toast.error(data.error || "Login gagal!");
       return;
     }
-
     document.cookie = "isLoggedIn=true; path=/";
     window.location.href = "/admin";
   }
