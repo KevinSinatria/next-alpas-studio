@@ -1,12 +1,20 @@
 import Sidebar from "@/components/SideBar";
 import TopBar from "@/components/TopBar";
+import { Metadata } from "next";
 
+
+export const metadata: Metadata = {
+  title: "Alpas Studio",
+  description:
+    "Alpas Studio adalah sebuah studio yang menyediakan berbagai layanan digital.",
+};
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
+    
     <div className="bg-image overflow-x-hidden overflow-y-hidden max-w-screen">
       {/* <header>
             <h1>haloo</h1>
