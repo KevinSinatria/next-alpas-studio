@@ -1,17 +1,41 @@
+// src/app/(dashboard)/admin/page.tsx
+
+"use client";
+
 import ChartPemasukan from "@/components/ChartPemasukan";
 import ChartPenjualan from "@/components/ChartPenjualan";
+import ListPesananTerbaru from "@/components/PesananTerbaru";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowUpRight } from "lucide-react";
-import type { Metadata } from "next";
+import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export const metadata: Metadata = {
-  title: "Alpas Studio",
-  description:
-    "Alpas Studio adalah sebuah studio yang menyediakan berbagai layanan digital.",
-};
 
 const DashboardPage = () => {
+  type Testimoni = {
+    id: number;
+    author: string;
+    rate: number;
+    body: string;
+  };
+    const [testimoni, setTestimoni] = useState<Testimoni[]>([]);
+  
+    const supabase = createClient();
+  
+    useEffect(() => {
+      const fetchTestimoni = async () => {
+        const { data, error } = await supabase.from("comments").select("*");
+  
+        if (error) {
+          console.error("Gagal fetch testimoni:", error.message);
+        } else {
+          setTestimoni(data || []);
+        }
+      };
+  
+      fetchTestimoni();
+    }, []);
+
   return (
     <div className="grid grid-cols-3 gap-6 m-5">
       <Link href="/admin/statistik">
@@ -36,43 +60,25 @@ const DashboardPage = () => {
         <ChartPemasukan />
       </Link>
 
-      <div className="bg-white/20 backdrop-blur-lg rounded-xl p-4 shadow-lg col-span-2">
-        <h2 className="text-white font-semibold mb-4">Pesanan Terbaru</h2>
-
-        <ScrollArea className="h-48 rounded-md">
-          <table className="w-full text-left text-white ">
-            <thead>
-              <tr className="border-b border-white/20">
-                <th className="pb-2">Order</th>
-                <th className="pb-2">Nama</th>
-                <th className="pb-2">Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.from({ length: 10 }).map((_, i) => (
-                <tr key={i} className="border-b border-white/10">
-                  <td className="py-2">#1123</td>
-                  <td>Wonyoung</td>
-                  <td>herewony@gmail.com</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </ScrollArea>
-      </div>
+      <ListPesananTerbaru/>
 
       <ScrollArea className="h-64 rounded-md">
         <div className="bg-white/50 backdrop-blur-lg rounded-xl p-4 shadow-lg">
           <h2 className="text-white font-semibold mb-4 ">Testimoni</h2>
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="bg-white/30 rounded-lg p-3 mb-3">
-              <p className="font-bold text-blue-600">Alminetta001</p>
-              <div className="text-yellow-400 text-lg mb-1">★★★★★</div>
-              <p className="text-gray-800 text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
+          {testimoni.length === 0 ? (
+          <p className="text-gray-600 italic">Belum ada testimoni.</p>
+        ) : (
+          testimoni.map((item) => (
+            <div key={item.id} className="bg-white/30 rounded-lg p-3 mb-3">
+              <p className="font-bold text-blue-600">{item.author}</p>
+              <div className="text-yellow-400 text-lg mb-1">
+                {"★".repeat(item.rate)}{" "}
+                {"☆".repeat(Math.max(0, 5 - item.rate))}
+              </div>
+              <p className="text-gray-800 text-sm">{item.body}</p>
             </div>
-          ))}
+          ))
+        )}
         </div>
       </ScrollArea>
     </div>

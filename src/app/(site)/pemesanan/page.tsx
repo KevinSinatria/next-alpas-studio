@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
+import { createClient } from "@/lib/supabase/client";
 
 
 export default function PemesananTemplatePage() {
@@ -17,36 +18,56 @@ export default function PemesananTemplatePage() {
   const [linkAsset, setLinkAsset] = useState("");
   
   const handleSubmit = async () => {
-    if (!nama || !email || !noHp || !pesan || !linkAsset) {
-      alert("Harap isi semua field!");
+  if (!nama || !email || !noHp || !pesan || !linkAsset) {
+    alert("Harap isi semua field!");
+    return;
+  }
+
+  try {
+
+    const res = await fetch("/api/send-message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nama, email, noHp, pesan, linkAsset }),
+    });
+
+    const result = await res.json();
+
+    if (!result.success) {
+      alert("Gagal mengirim pesan.");
       return;
     }
-  
-    try {
-      const res = await fetch("/api/send-message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nama, email, noHp, pesan, linkAsset }),
-      });
-  
-      const result = await res.json();
-      if (result.success) {
-        setShowAlert(true);
-        // Reset form
-        setNama("");
-        setEmail("");
-        setNoHp("");
-        setPesan("");
-        setLinkAsset("");
-        setShowAlert(false);
-      } else {
-        alert("Gagal mengirim pesan.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Terjadi kesalahan.");
+
+    // 2. Simpan ke Supabase
+    const supabase = createClient();
+
+    const { error } = await supabase.from("pesanans").insert([
+      { nama, email, nohp: noHp, pesan, link: linkAsset }
+    ]);
+
+    if (error) {
+      console.error("Error insert ke Supabase:", error);
+      alert("Gagal menyimpan ke database.");
+      return;
     }
-  };
+
+    // 3. Reset form & tampilkan alert sukses
+    setShowAlert(true);
+    setNama("");
+    setEmail("");
+    setNoHp("");
+    setPesan("");
+    setLinkAsset("");
+
+    // Opsional: sembunyikan alert setelah beberapa detik
+    setTimeout(() => setShowAlert(false), 4000);
+
+  } catch (err) {
+    console.error(err);
+    alert("Terjadi kesalahan.");
+  }
+};
+
   return (
     <section className="px-10 sm:px-8 sm:py-20 py-10 lg:px-20 w-full">
       <header className="bg-linear-to-b/oklch from-slate-700/40 to-gray-400/80 p-6 sm:p-10 rounded-3xl backdrop-blur mt-10 max-w-4xl mx-auto">

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 interface PemesananTemplateProps {
   template: {
@@ -22,12 +23,68 @@ interface PemesananTemplateProps {
 export default function PemesananTemplate({ template, onBack }: PemesananTemplateProps) {
   const [showAlert, setShowAlert] = useState(false);
   const [nama, setNama] = useState("");
+  const [email, setEmail] = useState("");
   const [kontak, setKontak] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!nama || !email || !kontak) {
+    alert("Harap isi semua field!");
+    return;
+  }
+
+  try {
+    const supabase = createClient();
+
+    // 1. Simpan ke Supabase
+    const { error } = await supabase.from("pesanans").insert([
+      {
+        nama,
+        email,
+        nohp: kontak,
+        template_id: template?.id ?? null,
+      },
+    ]);
+
+    if (error) {
+      console.error("Gagal menyimpan ke Supabase:", error);
+      alert("Gagal menyimpan data.");
+      return;
+    }
+
+    // 2. Kirim ke API email
+    const res = await fetch("/api/send-message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nama,
+        email,
+        noHp: kontak,
+        pesan: `Template yang dipilih: ${template?.title ?? "Tidak ada template"}`,
+        linkAsset: "-", // Kosongkan jika tidak ada, atau tambahkan jika form menyediakan input
+      }),
+    });
+
+    const result = await res.json();
+
+    if (!result.success) {
+      alert("Gagal mengirim email.");
+      return;
+    }
+
+    // 3. Reset form & tampilkan alert sukses
     setShowAlert(true);
-  };
+    setNama("");
+    setEmail("");
+    setKontak("");
+
+    setTimeout(() => setShowAlert(false), 5000);
+  } catch (err) {
+    console.error("Terjadi kesalahan:", err);
+    alert("Terjadi kesalahan saat menyimpan atau mengirim email.");
+  }
+};
 
   return (
     <section className="px-4 sm:px-8 py-25 lg:px-20 w-full">
@@ -81,11 +138,23 @@ export default function PemesananTemplate({ template, onBack }: PemesananTemplat
             </div>
 
             <div className="space-y-2">
-              <label className="text-white">Email / No HP</label>
+              <label className="text-white">Email</label>
               <Input
                 required
                 className="bg-white/80 text-base sm:text-lg md:text-xl font-semibold h-12 text-gray-800"
-                type="text"
+                type="email"
+                placeholder="Masukkan Email atau No HP"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-white"> No HP</label>
+              <Input
+                required
+                className="bg-white/80 text-base sm:text-lg md:text-xl font-semibold h-12 text-gray-800"
+                type="number"
                 placeholder="Masukkan Email atau No HP"
                 value={kontak}
                 onChange={e => setKontak(e.target.value)}
