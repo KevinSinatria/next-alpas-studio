@@ -35,24 +35,24 @@ export default function TemplatePage() {
     gambar: string[];
   } | null>(null);
   const [templates, setTemplates] = useState<Template[]>([]);
-  
-    useEffect(() => {
-      const fetchTemplates = async () => {
-        const { data, error } = await supabase.from("templates").select("*");
-  
-        if (error) {
-          console.error("Error fetching templates:", error.message);
-        } else {
-          setTemplates(data);
-        }
-      };
-  
-      fetchTemplates();
-    }, []);
-  
-    const supabaseUrl =
-      "https://bmgeuqxyshumafaxsauc.supabase.co/storage/v1/object/public/";
-  
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      const { data, error } = await supabase.from("templates").select("*");
+
+      if (error) {
+        console.error("Error fetching templates:", error.message);
+      } else {
+        setTemplates(data);
+      }
+    };
+
+    fetchTemplates();
+  }, []);
+
+  const supabaseUrl =
+    "https://bmgeuqxyshumafaxsauc.supabase.co/storage/v1/object/public/";
+
   const itemsPerPage = 8;
 
   const totalPages = Math.ceil(templates.length / itemsPerPage);
@@ -105,92 +105,99 @@ export default function TemplatePage() {
                           justify-center items-start w-full px-2 sm:px-4"
             >
               {currentItems.map((template) => {
-  const imageUrls = [
-    template.image_url,
-    template.image_url_2,
-    template.image_url_3,
-  ].filter(Boolean) as string[];
+                const imageUrls = [
+                  template.image_url,
+                  template.image_url_2,
+                  template.image_url_3,
+                ].filter(Boolean) as string[];
 
-  return (
-    <div
-      key={template.id}
-      className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
-    >
-      <HoverCard>
-        <HoverCardContent className="mx-5">
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-wrap gap-2">
-              {imageUrls.map((img, index) => (
-                <Image
-                  key={index}
-                  src={supabaseUrl + img.trim()}
-                  alt={template.title}
-                  width={200}
-                  height={200}
-                  className="rounded-2xl"
-                  unoptimized
-                />
-              ))}
-            </div>
-            <div className="flex justify-between">
-              <div className="flex flex-col">
-                <h1 className="text-xl font-semibold">{template.title}</h1>
-                <h5>{template.deks}</h5>
-              </div>
-              <div className="flex gap-1 items-start mt-1">
-                <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span>
-                <span className="font-semibold text-lg sm:text-2xl">
-                  {template.price.toLocaleString("id-ID")}
-                </span>
-              </div>
-            </div>
-          </div>
-        </HoverCardContent>
-        <HoverCardTrigger asChild>
-          <Image
-            src={supabaseUrl + template.image_url.trim()}
-            alt={template.title}
-            width={500}
-            height={500}
-              className="object-cover aspect-[4/5] w-full h-[300px] rounded-2xl"
-            unoptimized
-          />
-        </HoverCardTrigger>
-      </HoverCard>
+                return (
+                  <div
+                    key={template.id}
+                    className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
+                  >
+                    <HoverCard>
+                      <HoverCardContent className="mx-5">
+                        <div className="flex flex-col gap-4">
+                          <div className="flex flex-wrap gap-2">
+                            {imageUrls.map((img, index) => (
+                              <Image
+                                key={index}
+                                src={supabaseUrl + img.trim()}
+                                alt={template.title}
+                                width={200}
+                                height={200}
+                                className="rounded-2xl"
+                                unoptimized
+                              />
+                            ))}
+                          </div>
+                          <div className="flex justify-between">
+                            <div className="flex flex-col">
+                              <h1 className="text-xl font-semibold">
+                                {template.title}
+                              </h1>
+                              <h5>{template.deks}</h5>
+                            </div>
+                            <div className="flex gap-1 items-start mt-1">
+                              <span className="text-xs bg-green-200 px-1 rounded-lg">
+                                Rp
+                              </span>
+                              <span className="font-semibold text-lg sm:text-2xl">
+                                {template.price.toLocaleString("id-ID")}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </HoverCardContent>
+                      <HoverCardTrigger asChild>
+                        <Image
+                          src={supabaseUrl + template.image_url.trim()}
+                          alt={template.title}
+                          width={500}
+                          height={500}
+                          className="object-cover aspect-[4/5] w-full h-[300px] rounded-2xl"
+                          unoptimized
+                        />
+                      </HoverCardTrigger>
+                    </HoverCard>
 
-      <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
-        {template.title.length > 50
-          ? template.title.substring(0, 50) + "..."
-          : template.title}
-      </h2>
-      <div className="flex gap-1 items-start mt-1">
-        <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span>
-        <span className="font-semibold text-lg sm:text-2xl">
-          {template.price.toLocaleString("id-ID")}
-        </span>
-      </div>
+                    <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
+                      {template.title.length > 50
+                        ? template.title.substring(0, 50) + "..."
+                        : template.title}
+                    </h2>
+                    <div className="flex gap-1 items-start mt-1">
+                      <span className="text-xs bg-green-200 px-1 rounded-lg">
+                        Rp
+                      </span>
+                      <span className="font-semibold text-lg sm:text-2xl">
+                        {template.price.toLocaleString("id-ID")}
+                      </span>
+                    </div>
 
-      <Button
-        className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base"
-        onClick={() => {
-          setSelectedTemplate({
-            id: template.id,
-            image: supabaseUrl + template.image_url,
-            alt: template.title,
-            title: template.title,
-            dekskription: template.deks || "",
-            price: template.price.toString(),
-            gambar: imageUrls.map((img) => supabaseUrl + img),
-          });
-          setShowFormTemplate(true);
-        }}
-      >
-        <span className="drop-shadow-lg font-semibold">Order Now</span>
-      </Button>
-    </div>
-  );
-})}
-
+                    <Button
+                      className="bg-blue-500 text-white w-full mt-2 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-2xl cursor-pointer active:translate-y-0 transition-all text-sm sm:text-base"
+                      onClick={() => {
+                        setSelectedTemplate({
+                          id: template.id,
+                          image: supabaseUrl + template.image_url,
+                          alt: template.title,
+                          title: template.title,
+                          dekskription: template.deks || "",
+                          price: template.price.toString(),
+                          gambar: imageUrls.map((img) => supabaseUrl + img),
+                        });
+                        setShowFormTemplate(true);
+                      }}
+                    >
+                      <span className="drop-shadow-lg font-semibold">
+                        Order Now
+                      </span>
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
           </main>
 

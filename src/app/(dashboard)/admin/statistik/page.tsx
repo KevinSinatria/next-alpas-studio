@@ -4,28 +4,18 @@ import Link from "next/link";
 
 export default function StatistikPage() {
   return (
-    <div className="m-5 w-full">
-      <Link href="/admin/statistik" className="mb-2">
-        <ChartPenjualanStatistik />
-      </Link>
- 
-      <Link
-        href="/admin/statistik"
-        className="bg-blue-500/20 backdrop-blur-lg rounded-xl p-4 shadow-lg col-span-2 flex mt-2"
-      >
-        <div className="w-70 p-5">
-          <div className="w-full flex">
-            <h2 className="text-white font-semibold text-xl">
-              Total Pemasukan
-            </h2>
-          </div>
-          <div className="text-3xl font-bold text-white mt-2">
-            Rp 9.090.999,-
-          </div>
-        </div>
+    <div className="m-5 w-full ">
+      <h1 className="text-2xl font-bold text-white">Statistik</h1>
+      <div className="flex flex-col gap-6">
+  <Link href="/admin/statistik">
+    <ChartPenjualanStatistik />
+  </Link>
 
-        <ChartPemasukan />
-      </Link>
+  <Link href="/admin/statistik">
+    <ChartPemasukan />
+  </Link>
+</div>
+
     </div>
   );
 }

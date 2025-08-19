@@ -81,7 +81,7 @@ const OurTemplateSection = () => {
                   </HoverCardTrigger>
                   <HoverCardContent className="w-full">
                     <div className="flex flex-col gap-4">
-                      <div className="grid grid-cols-2 gap-2 ">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 ">
                         {gambar.map((img, index) => (
                           <Image
                             key={index}

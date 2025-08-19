@@ -1,155 +1,61 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ChevronRight, Filter } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
-type OrderType = "kustom" | "template";
+const supabase = createClient();
+
+type OrderType = "template" | "kustom";
 
 type Order = {
   id: string;
   nama: string;
   email: string;
   pesan: string;
+  link?: string;
   jenis: OrderType;
-  linkAsset?: string; // hanya terisi untuk kustom
 };
 
-// --- dummy data ---
-const ORDERS: Order[] = [
-  {
-    id: "#1123",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Buatkan design event konser...",
-    jenis: "kustom",
-    linkAsset: "https://drive.google.com/xxx",
-  },
-  {
-    id: "#1124",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Coba buat desain banner utk...",
-    jenis: "kustom",
-    linkAsset: "https://drive.google.com/yyy",
-  },
-  {
-    id: "#1125",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Pilih template poster modern",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-  {
-    id: "#1126",
-    nama: "Wonyoung",
-    email: "herewony@gmail.com",
-    pesan: "Template feed IG minimalis",
-    jenis: "template",
-  },
-];
-
 export default function OrdersTable() {
+  const [orders, setOrders] = useState<Order[]>([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [filter, setFilter] = useState<OrderType | "all">("all");
 
-  const data = useMemo(() => {
-    if (filter === "all") return ORDERS;
-    return ORDERS.filter((o) => o.jenis === filter);
-  }, [filter]);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const { data, error } = await supabase
+        .from("pesanans")
+        .select("id, nama, email, pesan, link, template_id");
 
-  const showLinkColumn = filter !== "template"; // kalau template, sembunyikan kolom link
+      if (error) {
+        console.error("Gagal fetch data:", error.message);
+      } else {
+        const transformed: Order[] = data.map((item) => ({
+          id: item.id,
+          nama: item.nama,
+          email: item.email,
+          pesan: item.pesan,
+          link: item.link ?? "",
+          jenis: item.template_id ? "template" : "kustom",
+        }));
+
+        setOrders(transformed);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  const data = useMemo(() => {
+    if (filter === "all") return orders;
+    return orders.filter((o) => o.jenis === filter);
+  }, [filter, orders]);
+
+  const showLinkColumn = filter !== "template";
+
+  // ...lanjutkan ke bagian tabel (sudah benar)
 
   return (
     <div className="relative mx-auto w-full max-w-6xl bg-white/40 rounded-2xl">
@@ -247,13 +153,13 @@ export default function OrdersTable() {
                       <Td className="truncate">{o.pesan}</Td>
                       {showLinkColumn && (
                         <Td>
-                          {o.jenis === "kustom" && o.linkAsset ? (
+                          {o.jenis === "kustom" && o.link ? (
                             <Link
-                              href={o.linkAsset}
+                              href={o.link}
                               target="_blank"
                               className="underline underline-offset-2 hover:opacity-80"
                             >
-                              {o.linkAsset}
+                              {o.link}
                             </Link>
                           ) : (
                             <span className="text-white/50">-</span>

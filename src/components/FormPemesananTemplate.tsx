@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, CheckCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 interface PemesananTemplateProps {
   template: {
@@ -74,12 +75,13 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     // 3. Reset form & tampilkan alert sukses
-    setShowAlert(true);
+
     setNama("");
     setEmail("");
     setKontak("");
 
-    setTimeout(() => setShowAlert(false), 5000);
+    
+    toast.success("pesanan berasil di pesan");
   } catch (err) {
     console.error("Terjadi kesalahan:", err);
     alert("Terjadi kesalahan saat menyimpan atau mengirim email.");
