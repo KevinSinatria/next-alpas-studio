@@ -1,16 +1,15 @@
 "use client";
 import { useState } from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, CheckCircle2Icon } from "lucide-react";
+import { ArrowLeft} from "lucide-react";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 
 export default function PemesananTemplatePage() {
-  const [showAlert, setShowAlert] = useState(false);
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [noHp, setNoHp] = useState("");
@@ -51,17 +50,13 @@ export default function PemesananTemplatePage() {
       return;
     }
 
-    // 3. Reset form & tampilkan alert sukses
-    setShowAlert(true);
     setNama("");
     setEmail("");
     setNoHp("");
     setPesan("");
     setLinkAsset("");
 
-    // Opsional: sembunyikan alert setelah beberapa detik
-    setTimeout(() => setShowAlert(false), 4000);
-
+    toast.success("pesanan berasil di pesan");
   } catch (err) {
     console.error(err);
     alert("Terjadi kesalahan.");
@@ -83,16 +78,6 @@ export default function PemesananTemplatePage() {
           </div>
 
           <div className="space-y-5">
-            {showAlert && (
-              <Alert>
-                <CheckCircle2Icon />
-                <AlertTitle>Success! Your changes have been saved</AlertTitle>
-                <AlertDescription>
-                  This is an alert with icon, title and description.
-                </AlertDescription>
-              </Alert>
-            )}
-
             <div className="space-y-2">
               <label className="text-base sm:text-lg text-white">Nama</label>
               <Input
