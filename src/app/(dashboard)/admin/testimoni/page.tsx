@@ -1,9 +1,5 @@
 "use client";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle2Icon, Star, Trash2 } from "lucide-react";
+import { Star, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 type Testimoni = {
@@ -28,10 +24,7 @@ const initialTestimoni: Testimoni[] = [
 
 export default function TestimoniPage() {
   const [testimoni, setTestimoni] = useState<Testimoni[]>(initialTestimoni);
-  const [nama, setNama] = useState("");
-  const [rating, setRating] = useState(0);
-  const [body, setBody] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
+
 
   const colors = [
     "bg-blue-500",
@@ -40,28 +33,6 @@ export default function TestimoniPage() {
     "bg-pink-500",
   ];
 
-  const handleSubmit = () => {
-    if (!nama || rating === 0 || !body)
-      return alert("Semua field harus diisi!");
-
-    const newTestimoni: Testimoni = {
-      id: Date.now(), // id unik
-      nama,
-      rating,
-      body,
-    };
-
-    setTestimoni((prev) => [newTestimoni, ...prev]);
-    setShowAlert(true);
-
-    // reset form
-    setNama("");
-    setRating(0);
-    setBody("");
-
-    // auto-hide alert
-    setTimeout(() => setShowAlert(false), 1800);
-  };
 
   const handleDelete = (id: number) => {
     const ok = confirm("Hapus testimoni ini?");

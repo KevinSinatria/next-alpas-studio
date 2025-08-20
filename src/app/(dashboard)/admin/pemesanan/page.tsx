@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, Filter } from "lucide-react";
+import { ChevronRight, Filter, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 const supabase = createClient();
@@ -22,6 +22,15 @@ export default function OrdersTable() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [filter, setFilter] = useState<OrderType | "all">("all");
+
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase.from("pesanans").delete().eq("id", id);
+    if (error) {
+      console.error("Gagal menghapus data:", error.message);
+    } else {
+      setOrders((prev) => prev.filter((order) => order.id !== id));
+    }
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -54,8 +63,6 @@ export default function OrdersTable() {
   }, [filter, orders]);
 
   const showLinkColumn = filter !== "template";
-
-  // ...lanjutkan ke bagian tabel (sudah benar)
 
   return (
     <div className="relative mx-auto w-full max-w-6xl bg-white/40 rounded-2xl">
@@ -137,6 +144,7 @@ export default function OrdersTable() {
                     <Th className="w-60">Email</Th>
                     <Th className="w-auto">Pesan</Th>
                     {showLinkColumn && <Th className="w-64">Link Asset</Th>}
+                    <Th className="w-20">Aksi</Th>
                   </tr>
                 </thead>
                 <tbody>
@@ -166,6 +174,22 @@ export default function OrdersTable() {
                           )}
                         </Td>
                       )}
+                      <Td>
+                        <button
+                          onClick={() => {
+                            const yakin = confirm(
+                              "Apakah Anda yakin ingin menghapus pesanan ini?"
+                            );
+                            if (yakin) {
+                              handleDelete(o.id);
+                            }
+                          }}
+                          className="text-red-400 hover:text-red-600 transition"
+                          title="Hapus"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </Td>
                     </tr>
                   ))}
                 </tbody>
