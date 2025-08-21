@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, BarChart2, ClipboardList, MessageSquare, LogOut } from "lucide-react";
+import { Home, BarChart2, ClipboardList, MessageSquare, LogOut, Archive } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -35,6 +35,7 @@ export default function Sidebar() {
     { href: "/admin/statistik", icon: <BarChart2 size={20} />, label: "Statistik" },
     { href: "/admin/pemesanan", icon: <ClipboardList size={20} />, label: "Pemesanan" },
     { href: "/admin/testimoni", icon: <MessageSquare size={20} />, label: "Testimoni" },
+    { href: "/admin/template", icon: <Archive size={20} />, label: "Template" },
   ];
 
   return (
