@@ -151,7 +151,7 @@ export default function OrdersTable() {
                   {data.map((o, idx) => (
                     <tr
                       key={o.id + idx}
-                      className={`text-sm text-white/90 ${
+                      className={`text-sm text-black font-se,ibold ${
                         idx % 2 === 0 ? "bg-gray-800/29" : "bg-white/0"
                       }`}
                     >
