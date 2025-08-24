@@ -12,8 +12,19 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { createClient } from "@/lib/supabase/client";
 import TemplateForm from "@/components/TemplateForm";
 import { CirclePlusIcon } from "lucide-react";
+import { toast } from "sonner";
 
 type Template = {
+  id: number;
+  title: string;
+  price: number;
+  image_url: string;
+  image_url_2?: string;
+  image_url_3?: string;
+  deks?: string;
+};
+
+type path = {
   id: number;
   title: string;
   price: number;
@@ -28,7 +39,6 @@ const supabase = createClient();
 export default function TemplateAdmin() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isEditing, setIsEditing] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [formData, setFormData] = useState<Template | null>(null);
 
@@ -47,7 +57,6 @@ export default function TemplateAdmin() {
   const getPages = () => {
     if (totalPages <= 5)
       return Array.from({ length: totalPages }, (_, i) => i + 1);
-
     if (currentPage <= 3) return [1, 2, 3, "...", totalPages];
     if (currentPage >= totalPages - 2)
       return [1, "...", totalPages - 2, totalPages - 1, totalPages];
@@ -56,34 +65,32 @@ export default function TemplateAdmin() {
 
   const fetchTemplates = async () => {
     const { data, error } = await supabase.from("templates").select("*");
-    if (error) {
-      console.error("Error fetching templates:", error.message);
-    } else {
-      setTemplates(data || []);
-    }
+    if (!error) setTemplates(data || []);
+    else console.error("❌ Error fetching templates:", error.message);
   };
+
   useEffect(() => {
     fetchTemplates();
   }, []);
 
   return (
-    <section className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center ">
+    <section className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center">
       {!formOpen && (
         <Button
           className="mb-4 bg-blue-600 text-white px-4 py-2 w-full rounded shadow"
           onClick={() => {
             setFormData(null);
-            setIsEditing(false);
             setFormOpen(true);
           }}
         >
-          <CirclePlusIcon /> Tambah Template
+          <CirclePlusIcon className="mr-2 h-5 w-5" />
+          Tambah Template
         </Button>
       )}
 
       {formOpen ? (
         <TemplateForm
-          template={formData}
+          template={formData ?? undefined}
           onSuccess={() => {
             setFormOpen(false);
             setFormData(null);
@@ -104,7 +111,9 @@ export default function TemplateAdmin() {
                   template.image_url,
                   template.image_url_2,
                   template.image_url_3,
-                ].filter(Boolean) as string[];
+                ]
+                  .filter(Boolean)
+                  .map((path) => path!.trim());
 
                 return (
                   <div
@@ -112,82 +121,6 @@ export default function TemplateAdmin() {
                     className="flex flex-col w-full gap-2 rounded-2xl shadow-2xl bg-white/80 p-3 sm:p-4"
                   >
                     <HoverCard>
-                      <HoverCardContent className="mx-5 w-fit">
-                        <div className="flex flex-col gap-4">
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                            {imageUrls.map((img, index) => (
-                              <Image
-                                key={index}
-                                src={supabaseUrl + img.trim()}
-                                alt={template.title}
-                                width={200}
-                                height={200}
-                                className="rounded-2xl object-cover"
-                                unoptimized
-                              />
-                            ))}
-                          </div>
-                          <div className="justify-between">
-                            <div className="flex flex-col">
-                              <h1 className="text-xl font-semibold">
-                                {template.title}
-                              </h1>
-                              <p className="text-sm text-gray-700">
-                                {template.deks}
-                              </p>
-                            </div>
-                            <div className="flex justify-between gap-1 items-start mt-1">
-                              <div className="">
-                                <span className="text-xs bg-green-200 px-1 rounded-lg">
-                                  Rp
-                                </span>
-                                <span className="font-semibold text-lg sm:text-2xl">
-                                  {template.price.toLocaleString("id-ID")}
-                                </span>
-                              </div>
-                              <div className="flex gap-2 mt-2">
-                                <Button
-                                  className="bg-yellow-400 text-black px-2 py-1 rounded"
-                                  onClick={() => {
-                                    setFormData(template);
-                                    setIsEditing(true);
-                                    setFormOpen(true);
-                                  }}
-                                >
-                                  Edit
-                                </Button>
-
-                                <Button
-                                  className="bg-red-600 text-white px-2 py-1 rounded"
-                                  onClick={async () => {
-                                    const ok = confirm(
-                                      "Yakin ingin menghapus template ini?"
-                                    );
-                                    if (!ok) return;
-
-                                    const { error } = await supabase
-                                      .from("templates")
-                                      .delete()
-                                      .eq("id", template.id);
-
-                                    if (!error) {
-                                      fetchTemplates(); // <== Refresh data setelah hapus
-                                    } else {
-                                      console.error(
-                                        "Gagal hapus:",
-                                        error.message
-                                      );
-                                    }
-                                  }}
-                                >
-                                  Hapus
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </HoverCardContent>
-
                       <HoverCardTrigger asChild>
                         <Image
                           src={supabaseUrl + template.image_url.trim()}
@@ -198,6 +131,37 @@ export default function TemplateAdmin() {
                           unoptimized
                         />
                       </HoverCardTrigger>
+
+                      <HoverCardContent className="mx-5 w-fit">
+                        <div className="flex flex-col gap-4">
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            {imageUrls.map((img, index) => (
+                              <Image
+                                key={index}
+                                src={supabaseUrl + img}
+                                alt={template.title}
+                                width={200}
+                                height={200}
+                                className="rounded-2xl object-cover"
+                                unoptimized
+                              />
+                            ))}
+                          </div>
+                          <div>
+                            <h1 className="text-xl font-semibold">
+                              {template.title}
+                            </h1>
+                            <p className="text-sm text-gray-700">
+                              {template.deks}
+                            </p>
+                            <div className="flex justify-between mt-2">
+                              <span className="text-lg font-bold">
+                                Rp {template.price.toLocaleString("id-ID")}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </HoverCardContent>
                     </HoverCard>
 
                     <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
@@ -205,28 +169,20 @@ export default function TemplateAdmin() {
                         ? template.title.substring(0, 30) + "..."
                         : template.title}
                     </h2>
-
-                    <div className="flex justify-between gap-1 items-start m">
-                      <div className="">
-                        <span className="text-xs bg-green-200 px-1 rounded-lg">
-                          Rp
-                        </span>
-                        <span className="font-semibold text-lg sm:text-2xl">
-                          {template.price.toLocaleString("id-ID")}
-                        </span>
-                      </div>
-                      <div className="flex gap-2 mt-2">
+                    <div className="flex justify-between mt-2">
+                      <span className="text-lg font-bold">
+                        Rp {template.price.toLocaleString("id-ID")}
+                      </span>
+                      <div className="flex gap-2">
                         <Button
                           className="bg-yellow-400 text-black px-2 py-1 rounded"
                           onClick={() => {
                             setFormData(template);
-                            setIsEditing(true);
                             setFormOpen(true);
                           }}
                         >
                           Edit
                         </Button>
-
                         <Button
                           className="bg-red-600 text-white px-2 py-1 rounded"
                           onClick={async () => {
@@ -234,16 +190,43 @@ export default function TemplateAdmin() {
                               "Yakin ingin menghapus template ini?"
                             );
                             if (!ok) return;
+                            // Daftar gambar yang akan dihapus
+                            const imagePaths = [
+                              template.image_url,
+                              template.image_url_2,
+                              template.image_url_3,
+                            ].filter(Boolean);
 
-                            const { error } = await supabase
+                            // Buat relative path dari "templates/" (karena bucket-nya bernama "templates")
+                            const relativePaths = imagePaths.map((path) =>
+                              (path ?? "").replace("templates/", "")
+                            );
+
+                            // Hapus gambar dari storage Supabase
+                            const { error: storageError } =
+                              await supabase.storage
+                                .from("templates")
+                                .remove(relativePaths);
+
+                            if (storageError) {
+                              toast.success(
+                                "❌ Gagal hapus data: " + storageError.message
+                              );
+                            }
+
+                            // Hapus entri dari tabel
+                            const { error: dbError } = await supabase
                               .from("templates")
                               .delete()
                               .eq("id", template.id);
 
-                            if (!error) {
-                              fetchTemplates(); 
+                            if (dbError) {
+                              toast.error(
+                                "❌ Gagal hapus data: " + dbError.message
+                              );
                             } else {
-                              console.error("Gagal hapus:", error.message);
+                              fetchTemplates(); // Refresh data
+                              toast.success("Template berhasil dihapus.");
                             }
                           }}
                         >
@@ -257,45 +240,39 @@ export default function TemplateAdmin() {
             </div>
           </main>
 
-          {/* Pagination */}
-          <footer className="flex justify-center gap-2 mt-6 bg-gray-300 p-2 rounded-full flex-wrap">
+          <footer className="flex justify-center gap-2 mt-6 bg-gray-300/60 mx-100 p-2 rounded-full flex-wrap">
             <button
               onClick={() => changePage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-3 sm:px-4 py-1 sm:py-2 rounded-full bg-white text-black text-sm sm:text-base font-medium disabled:bg-white/50 transition"
+              className="px-3 py-1 rounded-full bg-white text-black font-medium disabled:bg-white/70"
             >
               Previous
             </button>
 
-            <div className="flex items-center gap-1 sm:gap-2">
-              {getPages().map((page, i) =>
-                page === "..." ? (
-                  <span
-                    key={i}
-                    className="px-1 sm:px-2 text-black text-sm sm:text-base"
-                  >
-                    ...
-                  </span>
-                ) : (
-                  <button
-                    key={i}
-                    onClick={() => changePage(page as number)}
-                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition ${
-                      currentPage === page
-                        ? "bg-white text-black shadow"
-                        : "bg-transparent text-black hover:bg-white/50"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                )
-              )}
-            </div>
+            {getPages().map((page, i) =>
+              page === "..." ? (
+                <span key={i} className="px-2 text-black">
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={i}
+                  onClick={() => changePage(page as number)}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold transition ${
+                    currentPage === page
+                      ? "bg-white text-black shadow"
+                      : "bg-transparent text-black hover:bg-white/50"
+                  }`}
+                >
+                  {page}
+                </button>
+              )
+            )}
 
             <button
               onClick={() => changePage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="px-3 sm:px-4 py-1 sm:py-2 rounded-full bg-black text-white text-sm sm:text-base font-medium disabled:opacity-40 transition"
+              className="px-3 py-1 rounded-full bg-black text-white font-medium disabled:opacity-40"
             >
               Next
             </button>
