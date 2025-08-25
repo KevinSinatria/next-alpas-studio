@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   try {
     await resend.emails.send({
       from: 'ALPAS Studio <onboarding@resend.dev>',
-      to: 'waqqirhumaid1@gmail.com',
+      to: 'uxinity0105@gmail.com',
       subject: `Pemesanan Baru dari ${nama}`,
       replyTo: email,
       html: `
