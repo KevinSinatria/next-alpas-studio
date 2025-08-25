@@ -3,12 +3,21 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
-const gambar = [
-  "/ourkustom/Whatsapp.png",
-  "/ourkustom/Instagram.png",
-  "/tiktok.png",
-];
 
+const gambar = [
+  {
+    link: "https://wa.me/62895346195409",
+    gambar: "/ourkustom/Whatsapp.png",
+  },
+  {
+    link: "https://www.instagram.com/alpastudio.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    gambar: "/ourkustom/Instagram.png",
+  },
+  {
+    link: "https://www.tiktok.com/@alpasstudio.id?_t=ZS-8zAUgBuzaJl&_r=1",
+    gambar: "/tiktok.png",
+  },
+];
 export default function KustomPage() {
   return (
     <div className="px-4 sm:px-8 py-8 lg:px-20">
@@ -88,11 +97,17 @@ export default function KustomPage() {
             Atau Konsultasikan Desainmu dengan Kami Melalui
           </h1>
           <div className="w-full flex justify-center items-center gap-5 mt-5">
-            {gambar.map((gambar, i) => (
-              <Link href={""} key={i}>
-                <Image src={gambar} alt={gambar} width={60} height={60} />
-              </Link>
-            ))}
+             {gambar.map((gambar, i) => (
+            <Link href={gambar.link} key={i}>
+              <Image
+                src={gambar.gambar}
+                alt={gambar.gambar}
+                width={50}
+                height={50}
+                className="sm:w-[60px] sm:h-[60px]"
+              />
+            </Link>
+          ))}
           </div>
         </main>
       </div>

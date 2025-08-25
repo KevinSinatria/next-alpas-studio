@@ -2,7 +2,20 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const gambar = ["/ourkustom/Whatsapp.png", "/ourkustom/Instagram.png" , "/tiktok.png"];
+  const gambar = [
+    {
+      link: "https://wa.me/62895346195409",
+      gambar: "/ourkustom/Whatsapp.png",
+    },
+    {
+      link: "https://www.instagram.com/alpastudio.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+      gambar: "/ourkustom/Instagram.png",
+    },
+    {
+      link: "https://www.tiktok.com/@alpasstudio.id?_t=ZS-8zAUgBuzaJl&_r=1",
+      gambar: "/tiktok.png",
+    },
+  ];
 
 export default function TestimoniPage() {
   return (
@@ -17,7 +30,7 @@ export default function TestimoniPage() {
 
       <main className="bg-white">
         {/* Konten 1: Teks kiri, gambar kanan */}
-        <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-8">
+        <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div className="space-y-4 leading-relaxed text-base sm:text-lg text-gray-900 dark:text-white/90">
               <div className="flex items-center gap-3">
@@ -55,7 +68,7 @@ export default function TestimoniPage() {
         </section>
 
         {/* Konten 2: Gambar kiri, teks kanan */}
-        <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-12  ">
+        <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-12 ">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div className="rounded-2xl border border-white/30 bg-white/60 dark:bg-white/10 p-2 shadow-xl backdrop-blur">
               <Image
@@ -83,17 +96,17 @@ export default function TestimoniPage() {
           Atau Konsultasikan Desainmu dengan Kami Melalui
         </h1>
 
-        <div className="w-full flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-5">
+        <div className="w-full flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-5 pb-10">
           {gambar.map((gambar, i) => (
-            <Link href={"/"} key={i} >
-            <Image
-              src={gambar}
-              alt={gambar}
-              width={50}
-              height={50}
-              className="sm:w-[60px] sm:h-[60px]"
+            <Link href={gambar.link} key={i}>
+              <Image
+                src={gambar.gambar}
+                alt={gambar.gambar}
+                width={50}
+                height={50}
+                className="sm:w-[60px] sm:h-[60px]"
               />
-              </Link>
+            </Link>
           ))}
         </div>
       </main>
