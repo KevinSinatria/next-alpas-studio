@@ -94,7 +94,7 @@ const OurTemplateSection = () => {
                           />
                         ))}
                       </div>
-                      <div className="flex justify-between">
+                      <div className="flex flex-col justify-between">
                         <div className="flex flex-col">
                           <h1 className="text-xl font-semibold">
                             {template.title}

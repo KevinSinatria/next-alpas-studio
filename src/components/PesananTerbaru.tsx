@@ -20,7 +20,7 @@ export default function ListPesananTerbaru() {
       const { data, error } = await supabase
         .from("pesanans")
         .select("id, nama, email, created_at")
-        .order("created_at", { ascending: true })
+        .order("created_at", { ascending: false })
         .limit(10);
 
       if (error) {

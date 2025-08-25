@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
-const gambar = ["/ourkustom/Whatsapp.png", "/ourkustom/Instagram.png"];
+const gambar = [
+  "/ourkustom/Whatsapp.png",
+  "/ourkustom/Instagram.png",
+  "/tiktok.png",
+];
 
 export default function KustomPage() {
   return (
@@ -85,7 +89,9 @@ export default function KustomPage() {
           </h1>
           <div className="w-full flex justify-center items-center gap-5 mt-5">
             {gambar.map((gambar, i) => (
-              <Image src={gambar} alt={gambar} key={i} width={60} height={60} />
+              <Link href={""} key={i}>
+                <Image src={gambar} alt={gambar} width={60} height={60} />
+              </Link>
             ))}
           </div>
         </main>

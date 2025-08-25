@@ -2,12 +2,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft} from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
-
 
 export default function PemesananTemplatePage() {
   const [nama, setNama] = useState("");
@@ -15,53 +14,55 @@ export default function PemesananTemplatePage() {
   const [noHp, setNoHp] = useState("");
   const [pesan, setPesan] = useState("");
   const [linkAsset, setLinkAsset] = useState("");
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async () => {
-  if (!nama || !email || !noHp || !pesan || !linkAsset) {
-    alert("Harap isi semua field!");
-    return;
-  }
-
-  try {
-
-    const res = await fetch("/api/send-message", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nama, email, noHp, pesan, linkAsset }),
-    });
-
-    const result = await res.json();
-
-    if (!result.success) {
-      alert("Gagal mengirim pesan.");
+    if (!nama || !email || !noHp || !pesan || !linkAsset) {
+      alert("Harap isi semua field!");
       return;
     }
 
-    // 2. Simpan ke Supabase
-    const supabase = createClient();
+    setIsLoading(true); // mulai loading
 
-    const { error } = await supabase.from("pesanans").insert([
-      { nama, email, nohp: noHp, pesan, link: linkAsset }
-    ]);
+    try {
+      const res = await fetch("/api/send-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nama, email, noHp, pesan, linkAsset }),
+      });
 
-    if (error) {
-      console.error("Error insert ke Supabase:", error);
-      alert("Gagal menyimpan ke database.");
-      return;
+      const result = await res.json();
+
+      if (!result.success) {
+        alert("Gagal mengirim pesan.");
+        return;
+      }
+
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("pesanans")
+        .insert([{ nama, email, nohp: noHp, pesan, link: linkAsset }]);
+
+      if (error) {
+        console.error("Error insert ke Supabase:", error);
+        alert("Gagal menyimpan ke database.");
+        return;
+      }
+
+      setNama("");
+      setEmail("");
+      setNoHp("");
+      setPesan("");
+      setLinkAsset("");
+
+      toast.success("Pesanan berhasil dikirim!");
+    } catch (err) {
+      console.error(err);
+      alert("Terjadi kesalahan.");
+    } finally {
+      setIsLoading(false); // selesai loading
     }
-
-    setNama("");
-    setEmail("");
-    setNoHp("");
-    setPesan("");
-    setLinkAsset("");
-
-    toast.success("pesanan berasil di pesan");
-  } catch (err) {
-    console.error(err);
-    alert("Terjadi kesalahan.");
-  }
-};
+  };
 
   return (
     <section className="px-10 sm:px-8 sm:py-20 py-10 lg:px-20 w-full">
@@ -140,8 +141,13 @@ export default function PemesananTemplatePage() {
               />
             </div>
 
-            <Button className="w-full sm:w-auto" onClick={handleSubmit}>
-              Kirim Pesan
+            <Button
+              className="w-full sm:w-auto flex items-center gap-2"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading && <Loader2 className="animate-spin w-4 h-4" />}
+              {isLoading ? "Mengirim..." : "Kirim Pesan"}
             </Button>
           </div>
         </div>

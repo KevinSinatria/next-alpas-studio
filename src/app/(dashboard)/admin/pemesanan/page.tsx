@@ -9,6 +9,17 @@ const supabase = createClient();
 
 type OrderType = "template" | "kustom";
 
+type SupabaseOrder = {
+  id: string;
+  nama: string;
+  email: string;
+  pesan: string;
+  link?: string;
+  template: {
+    title: string;
+  } | null;
+};
+
 type Order = {
   id: string;
   nama: string;
@@ -16,7 +27,9 @@ type Order = {
   pesan: string;
   link?: string;
   jenis: OrderType;
+  templateTitle: string; // ✅ WAJIB agar tidak error
 };
+
 
 export default function OrdersTable() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -36,7 +49,9 @@ export default function OrdersTable() {
     const fetchOrders = async () => {
       const { data, error } = await supabase
         .from("pesanans")
-        .select("id, nama, email, pesan, link, template_id");
+        .select(
+          "id, nama, email, pesan, link, template_id, template:templates(title)"
+        );
 
       if (error) {
         console.error("Gagal fetch data:", error.message);
@@ -48,6 +63,7 @@ export default function OrdersTable() {
           pesan: item.pesan,
           link: item.link ?? "",
           jenis: item.template_id ? "template" : "kustom",
+          templateTitle: item.template?.title ?? "",
         }));
 
         setOrders(transformed);
@@ -143,6 +159,7 @@ export default function OrdersTable() {
                     <Th className="w-36">Nama</Th>
                     <Th className="w-60">Email</Th>
                     <Th className="w-auto">Pesan</Th>
+                    <Th className="w-40">Template</Th>
                     {showLinkColumn && <Th className="w-64">Link Asset</Th>}
                     <Th className="w-20">Aksi</Th>
                   </tr>
@@ -159,6 +176,10 @@ export default function OrdersTable() {
                       <Td className="font-medium">{o.nama}</Td>
                       <Td className="truncate">{o.email}</Td>
                       <Td className="truncate">{o.pesan}</Td>
+                      <Td>
+                        {o.jenis === "template" ? o.templateTitle || "-" : "-"}
+                      </Td>
+
                       {showLinkColumn && (
                         <Td>
                           {o.jenis === "kustom" && o.link ? (

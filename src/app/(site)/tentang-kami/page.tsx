@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 
-const gambar = ["/ourkustom/Whatsapp.png", "/ourkustom/Instagram.png"];
+const gambar = ["/ourkustom/Whatsapp.png", "/ourkustom/Instagram.png" , "/tiktok.png"];
 
 export default function TestimoniPage() {
   return (
@@ -84,22 +85,16 @@ export default function TestimoniPage() {
 
         <div className="w-full flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-5">
           {gambar.map((gambar, i) => (
+            <Link href={"/"} key={i} >
             <Image
               src={gambar}
               alt={gambar}
-              key={i}
               width={50}
               height={50}
               className="sm:w-[60px] sm:h-[60px]"
-            />
+              />
+              </Link>
           ))}
-          <Image
-            src="/tiktok.png"
-            alt="kepo"
-            width={80}
-            height={80}
-            className="sm:w-[100px] sm:h-[100px]"
-          />
         </div>
       </main>
     </section>

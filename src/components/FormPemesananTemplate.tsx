@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, CheckCircle2Icon } from "lucide-react";
+import { ArrowLeft, CheckCircle2Icon, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
@@ -21,72 +21,76 @@ interface PemesananTemplateProps {
   onBack?: () => void;
 }
 
-export default function PemesananTemplate({ template, onBack }: PemesananTemplateProps) {
+export default function PemesananTemplate({
+  template,
+  onBack,
+}: PemesananTemplateProps) {
   const [showAlert, setShowAlert] = useState(false);
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [kontak, setKontak] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (!nama || !email || !kontak) {
-    alert("Harap isi semua field!");
-    return;
-  }
-
-  try {
-    const supabase = createClient();
-
-    // 1. Simpan ke Supabase
-    const { error } = await supabase.from("pesanans").insert([
-      {
-        nama,
-        email,
-        nohp: kontak,
-        template_id: template?.id ?? null,
-      },
-    ]);
-
-    if (error) {
-      console.error("Gagal menyimpan ke Supabase:", error);
-      alert("Gagal menyimpan data.");
+    if (!nama || !email || !kontak) {
+      alert("Harap isi semua field!");
       return;
     }
 
-    // 2. Kirim ke API email
-    const res = await fetch("/api/send-message", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nama,
-        email,
-        noHp: kontak,
-        pesan: `Template yang dipilih: ${template?.title ?? "Tidak ada template"}`,
-        linkAsset: "-", // Kosongkan jika tidak ada, atau tambahkan jika form menyediakan input
-      }),
-    });
+    setIsLoading(true); // Mulai loading
 
-    const result = await res.json();
+    try {
+      const supabase = createClient();
 
-    if (!result.success) {
-      alert("Gagal mengirim email.");
-      return;
+      const { error } = await supabase.from("pesanans").insert([
+        {
+          nama,
+          email,
+          nohp: kontak,
+          template_id: template?.id ?? null,
+        },
+      ]);
+
+      if (error) {
+        console.error("Gagal menyimpan ke Supabase:", error);
+        alert("Gagal menyimpan data.");
+        return;
+      }
+
+      const res = await fetch("/api/send-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nama,
+          email,
+          noHp: kontak,
+          pesan: `Template yang dipilih: ${
+            template?.title ?? "Tidak ada template"
+          }`,
+          linkAsset: "-",
+        }),
+      });
+
+      const result = await res.json();
+
+      if (!result.success) {
+        alert("Gagal mengirim email.");
+        return;
+      }
+
+      setNama("");
+      setEmail("");
+      setKontak("");
+      toast.success("Pesanan berhasil dikirim");
+    } catch (err) {
+      console.error("Terjadi kesalahan:", err);
+      alert("Terjadi kesalahan saat menyimpan atau mengirim email.");
+    } finally {
+      setIsLoading(false); // Selesai loading
     }
-
-    // 3. Reset form & tampilkan alert sukses
-
-    setNama("");
-    setEmail("");
-    setKontak("");
-
-    
-    toast.success("pesanan berasil di pesan");
-  } catch (err) {
-    console.error("Terjadi kesalahan:", err);
-    alert("Terjadi kesalahan saat menyimpan atau mengirim email.");
-  }
-};
+  };
 
   return (
     <section className="px-4 sm:px-8 py-25 lg:px-20 w-full">
@@ -97,7 +101,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <Link
               href={"/template"}
               className="text-white text-3xl"
-              onClick={e => {
+              onClick={(e) => {
                 if (onBack) {
                   e.preventDefault();
                   onBack();
@@ -135,7 +139,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="text"
                 placeholder="Masukkan Nama"
                 value={nama}
-                onChange={e => setNama(e.target.value)}
+                onChange={(e) => setNama(e.target.value)}
               />
             </div>
 
@@ -147,7 +151,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="email"
                 placeholder="Masukkan Email atau No HP"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -159,7 +163,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="number"
                 placeholder="Masukkan Email atau No HP"
                 value={kontak}
-                onChange={e => setKontak(e.target.value)}
+                onChange={(e) => setKontak(e.target.value)}
               />
             </div>
 
@@ -172,9 +176,11 @@ const handleSubmit = async (e: React.FormEvent) => {
 
             <Button
               type="submit"
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto flex items-center gap-2"
+              disabled={isLoading}
             >
-              Pesan Sekarang
+              {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isLoading ? "Mengirim..." : "Pesan Sekarang"}
             </Button>
           </form>
         </div>
