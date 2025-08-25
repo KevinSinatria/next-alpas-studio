@@ -68,7 +68,7 @@ export default function TestimoniPage() {
   return (
     <section className="px-4 sm:px-8 py-8 lg:px-20 w-full">
       {/* Grid testimoni */}
-      <ScrollArea className="h-[600px] w-full p-1 rounded-lg border">
+      <ScrollArea className="h-[600px] w-full p-1 rounded-lg ">
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
           {testimoni.map((testi, index) => {
             const randomColor = colors[index % colors.length];
@@ -76,7 +76,7 @@ export default function TestimoniPage() {
             return (
               <article
                 key={testi.id}
-                className="relative p-5 sm:p-6 flex flex-col gap-3 items-start bg-white/60 dark:bg-white/20 text-gray-900 dark:text-white/90 border border-white/30 backdrop-blur-2xl rounded-2xl shadow-lg transition-all duration-300"
+                className="relative p-5 sm:p-6 flex flex-col gap-3 items-start bg-white/60 dark:bg-white/20 text-gray-900 dark:text-white/90 backdrop-blur-2xl rounded-2xl shadow-lg transition-all duration-300"
               >
                 <button
                   onClick={() => handleDelete(testi.id)}

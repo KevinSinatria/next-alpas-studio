@@ -31,7 +31,7 @@ export default function RootLayout({
          </header>
          <main className="bg-linear-to-b from-gray-900/80 from-0% via-gray-900/20 via-[80px] to-gray-900/20 to-100%">
          {children}
-         <Toaster />
+         <Toaster position="top-center" richColors />
          </main>
          <Footer />
       </div>

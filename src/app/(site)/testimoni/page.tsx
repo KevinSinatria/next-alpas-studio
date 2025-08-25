@@ -79,9 +79,9 @@ const handleSubmit = async () => {
 
   return (
     <section className=" py-8 lg:px-20 w-full">
-      <div className="bg-linear-to-b/oklch from-blue-400/20 to-white/50 p-4 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-30 mx-5 ">
+      <div className=" p-4 gap-6 items-center justify-center mt-30 mx-5 ">
         <header className="w-full text-center md:text-left px-2 mb-10">
-          <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
+          <h2 className="text-black mt-3 sm:mt-5 flex flex-col gap-2">
             <span className="text-xl sm:text-3xl md:text-4xl font-semibold uppercase">
               Apa Kata Mereka Tentang ALPAS Studio?
             </span>
