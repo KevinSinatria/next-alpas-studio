@@ -9,6 +9,16 @@ body {
 }
 
 .bg-image{
+   background-image: url('/BGKURSIIIIIII.png');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   min-height: 100vh;
+   min-width: 100vw;
+}
+
+.bg-image-login{
    background-image: url('/alpas-bg.png');
    background-size: cover;
    background-position: center;
@@ -27,6 +37,18 @@ body {
    min-height: 100vh;
    min-width: 100vw;
 }
+
+/* global.css */
+.masonry {
+  column-count: 2; /* jumlah kolom */
+  column-gap: 1.5rem; /* jarak antar kolom */
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
 
 @theme {
    --font-poppins: Poppins, sans-serif;

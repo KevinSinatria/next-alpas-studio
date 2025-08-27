@@ -3,6 +3,8 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import { Metadata } from "next";
 import Footer from "@/components/Footer";
+import { Toaster } from "@/components/ui/sonner";
+
 
 const poppins = Poppins({
    variable: "--font-poppins",
@@ -10,7 +12,6 @@ const poppins = Poppins({
    display: "swap",
    weight: ["400", "500", "600", "700"],
 });
-
 
 export const metadata: Metadata = {
    title: "Alpas Studio",
@@ -28,7 +29,10 @@ export default function RootLayout({
          <header>
             <Navbar />
          </header>
-         <main className="bg-linear-to-b from-gray-900/80 from-0% via-gray-900/20 via-[80px] to-gray-900/20 to-100%">{children}</main>
+         <main className="bg-linear-to-b from-gray-900/80 from-0% via-gray-900/20 via-[80px] to-gray-900/20 to-100%">
+         {children}
+         <Toaster position="top-center" richColors />
+         </main>
          <Footer />
       </div>
    );

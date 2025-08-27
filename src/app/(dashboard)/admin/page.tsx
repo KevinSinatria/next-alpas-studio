@@ -1,18 +1,88 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-   title: "Alpas Studio",
-   description: "Alpas Studio adalah sebuah studio yang menyediakan berbagai layanan digital.",
+import ChartPemasukan from "@/components/ChartPemasukan";
+import ChartPenjualan from "@/components/ChartPenjualan";
+import ListPesananTerbaru from "@/components/PesananTerbaru";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { createClient } from "@/lib/supabase/client";
+import { Star } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+const DashboardPage = () => {
+  type Testimoni = {
+    id: number;
+    author: string;
+    rate: number;
+    body: string;
+  };
+
+
+
+  const [testimoni, setTestimoni] = useState<Testimoni[]>([]);
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    const fetchTestimoni = async () => {
+      const { data, error } = await supabase.from("comments").select("*");
+
+      if (error) {
+        console.error("Gagal fetch testimoni:", error.message);
+      } else {
+        setTestimoni(data || []);
+        // toast.success("selamat datang admin");
+      }
+    };
+
+
+    fetchTestimoni();
+
+  }, [supabase]);
+
+
+  return (
+    <div className="grid grid-cols-3 gap-6 m-5">
+      <Link href="/admin/statistik">
+        <ChartPenjualan />
+      </Link>
+
+      <Link
+        href="/admin/statistik"
+        className="col-span-2"
+      >
+        <ChartPemasukan />
+      </Link>
+
+      <ListPesananTerbaru />
+
+      <ScrollArea className="h-64 rounded-md">
+        <div className="bg-white/50 backdrop-blur-lg rounded-xl p-4 shadow-lg">
+          <h2 className="text-white font-semibold mb-4 ">Testimoni</h2>
+          {testimoni.length === 0 ? (
+            <p className="text-gray-600 italic">Belum ada testimoni.</p>
+          ) : (
+            testimoni.map((item) => (
+              <div key={item.id} className="bg-white/30 rounded-lg p-3 mb-3">
+                <p className="font-bold text-blue-600">{item.author}</p>
+                <div className="text-yellow-400 text-lg mb-1 flex">
+                  {[...Array(item.rate)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="text-yellow-400 fill-yellow-400"
+                      size={20}
+                    />
+                  ))}
+                </div>
+                <p className="text-gray-800 text-sm">{item.body}</p>
+              </div>
+            ))
+          )}
+        </div>
+      </ScrollArea>
+    </div>
+  );
 };
-
-const DashboardPage = () => {   
-   return (
-      <div>
-         <div className="z-10 items-center justify-items-center p-8 pb-20 gap-16 sm:p-20">
-            <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque nostrum earum quia saepe, aspernatur ipsum beatae quos et iure odit dolore magni cupiditate doloribus mollitia. Distinctio temporibus nisi ipsum reprehenderit dignissimos ullam, asperiores aut quaerat delectus dicta rerum aperiam numquam, alias expedita libero ad tempora repellat iste voluptates dolor nostrum officia! Aspernatur minus officiis delectus autem ducimus incidunt soluta officia porro voluptate! Libero totam ab magni officia odit praesentium omnis eos harum vitae incidunt magnam ad, explicabo ipsum ex deleniti qui cupiditate, consequuntur nulla suscipit ducimus sequi? Ad alias quaerat aspernatur quibusdam aut nemo ullam consequuntur fugit dolores facere dolorum, voluptas qui. Ad eligendi optio ratione, deserunt et doloribus quae sunt perspiciatis praesentium pariatur culpa! Architecto molestias asperiores libero eum sed molestiae? Ex eveniet voluptas placeat pariatur velit blanditiis expedita dolorum incidunt ipsam aut temporibus dolore repellendus odio quia, non iusto numquam consequuntur dicta doloremque. Accusamus non iste similique rem eaque, perspiciatis repellat! Hic, voluptatibus fugiat ratione tempore numquam veniam, voluptatum iste quasi provident corporis doloribus inventore. Amet, error pariatur perspiciatis, dolores quae exercitationem repellat eos doloremque natus dolorem iure illum sint mollitia iusto alias? Quasi animi nostrum nam quae laborum, iure velit maiores rem amet, provident libero porro vitae quibusdam repellendus accusamus omnis illum, temporibus sapiente veritatis delectus dolorem voluptas suscipit saepe! Id dolor commodi veniam at optio voluptate soluta voluptas corrupti ab fugiat perferendis delectus amet, libero sit aperiam vero voluptates nesciunt, est error eum ea vel illum. Quos perferendis officia recusandae. Voluptas reiciendis nobis tempore aut earum nostrum quas incidunt adipisci rem facilis, porro aspernatur enim laudantium cupiditate a repellat, vel possimus modi! Quis illo doloremque possimus ducimus quisquam nobis mollitia libero cum dolor consectetur quam aut, id modi voluptates obcaecati vel a ea temporibus minima! Harum temporibus ex dolores esse aperiam magnam molestiae facilis unde architecto eum! Aliquam corporis voluptatibus officia vitae distinctio obcaecati ipsum numquam aperiam? Minus assumenda incidunt expedita ipsa facere necessitatibus, quos maiores, inventore quam molestias veniam obcaecati voluptatibus totam nesciunt. Rem iusto, nemo a libero, praesentium culpa deleniti quos veritatis deserunt neque cum et nisi. Hic impedit consequatur nemo voluptatibus, voluptas obcaecati eveniet, sint laboriosam dolores necessitatibus odit maxime facilis non distinctio temporibus amet enim aliquam ducimus aspernatur eaque unde. Dolor ad dignissimos corrupti cupiditate perferendis aut et id, nam veniam inventore optio numquam molestias magni pariatur a fugiat? Dicta iste earum iusto, natus sed totam repellat sunt laborum atque nisi officia quia maxime quam quo distinctio amet? Sunt hic ea quibusdam laboriosam cum? Maiores voluptatem dolorem saepe, sequi odit, perspiciatis quo excepturi, voluptate necessitatibus amet minus unde distinctio aliquam ab suscipit. Vero excepturi amet voluptate, fuga optio nisi ab provident, animi deleniti incidunt rerum soluta. Quaerat nostrum cumque consectetur quia repellendus aperiam aliquam necessitatibus ex, quidem repellat, illum ipsam neque itaque rem id nobis quis dicta eos aut corporis! Quaerat facilis corrupti officiis repellendus mollitia omnis impedit aperiam maiores odit alias quas necessitatibus amet tempora facere harum perspiciatis sint et quia delectus optio soluta, maxime autem placeat. Consectetur a, illum nihil similique facilis, inventore pariatur est adipisci vitae voluptas recusandae sequi rerum soluta ullam magnam perspiciatis perferendis neque et minima velit dolore amet saepe, consequatur laborum? Enim in repellat perspiciatis eveniet non incidunt nisi eos accusamus voluptatem sint, consectetur, dolorem distinctio quas ab? Similique ipsa nobis culpa corporis ea perferendis facilis odio mollitia temporibus, hic cupiditate esse eaque, doloremque molestias fuga explicabo veritatis saepe et beatae modi odit. Esse velit fugit at in, quidem laborum dolor voluptates quaerat consequatur saepe molestiae totam cupiditate! Ipsam optio est deleniti eveniet ullam aliquid, impedit, cum vero eligendi recusandae voluptate nihil. Provident autem repellendus at cumque itaque beatae nam maxime rem neque mollitia, harum perspiciatis nisi, fugiat incidunt? Ad illum consectetur repellat nisi molestias, officiis esse ratione incidunt debitis numquam ab accusantium beatae tenetur possimus reprehenderit voluptates. Quisquam, aliquid consequatur fugit quod minima, aliquam quis magnam esse libero voluptatem, corrupti nemo! Non incidunt enim laudantium quasi tenetur dolorem eaque cupiditate voluptatum eum dolore assumenda delectus atque alias quibusdam harum quo, quia placeat neque. Cupiditate iusto mollitia unde beatae, delectus odio quae accusantium eaque suscipit expedita eos, in dolore fugiat sequi ex quis ipsam sint sit maiores sapiente reprehenderit distinctio minus nihil. Earum sed dolor dignissimos modi exercitationem, perferendis dicta dolore unde eveniet provident natus quo voluptates nemo dolorem labore placeat? Perspiciatis, cumque asperiores magnam sunt voluptas similique non expedita ducimus aspernatur temporibus blanditiis. Laudantium dicta alias quia vitae eligendi cupiditate? Sequi atque earum a dignissimos aliquid fugit ad impedit, ratione sit optio voluptate voluptatem, veniam facilis iste laborum velit suscipit est ex, beatae labore dolorum porro quos! Ullam magni maiores neque blanditiis eaque molestias ipsam officiis consequuntur, nesciunt dicta esse nisi minus, sapiente fugit eius fugiat quo commodi consequatur quis voluptatum. Sed, perspiciatis incidunt modi mollitia nemo ut ad labore temporibus dolor repellat dignissimos aperiam aut, odio, laudantium dicta dolore magni distinctio sit quas ducimus veniam sapiente nobis. Repellendus corrupti molestiae sit ipsa provident aliquam eius? Rerum deleniti temporibus error omnis hic harum ea magnam ipsum cum. Fugiat delectus placeat facilis officia nesciunt. Recusandae, doloremque tempore laudantium magnam dignissimos maxime, esse ea, ullam nobis vitae unde quam fugit. Repellendus veniam aliquam atque expedita ipsum laborum incidunt dolorum. Praesentium ullam vitae officia autem maiores magnam delectus aliquid cum at, iusto voluptas rem dignissimos natus commodi? Temporibus autem illum, nemo vitae nihil voluptas deleniti! Quo aut maxime provident rerum veritatis! Corrupti perferendis minima vero molestias, voluptas praesentium deserunt recusandae unde odio. Id qui ipsa perspiciatis ut, impedit ullam asperiores esse sit at praesentium commodi, laborum omnis enim magni! Molestias quo maxime veritatis praesentium optio voluptas. Consequatur nobis perferendis excepturi atque magni quod! Unde vel et, odio molestiae hic accusantium temporibus illum, recusandae veniam cupiditate laudantium in. Amet, rerum ducimus. Mollitia quas nobis at similique maxime minus sequi nemo magni adipisci dolores, accusamus necessitatibus natus quibusdam eveniet in, fugiat cupiditate dolorum labore rerum modi velit quam corrupti. Accusantium vitae sint, ipsam alias quasi adipisci exercitationem ullam repellat labore nam, hic, minus ea. Labore rem sit excepturi velit officiis.</h1>
-         </div>
-      </div>
-   );
-}
 
 export default DashboardPage;
