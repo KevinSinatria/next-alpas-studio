@@ -1,41 +1,65 @@
-import * as React from "react"
+"use client";
 
-import { Card, CardContent } from "@/components/ui/card"
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import Image from "next/image"
+} from "@/components/ui/carousel";
+import Image from "next/image";
+import { createClient } from "@/lib/supabase/client";
 
-const gambar = [
-  {
-    id: 1,
-    path: '/ourkustom/custom2.png'
-  },
-  {
-    id: 2,
-    path: '/ourkustom/custom1.png'
-  },
-  {
-    id: 3,
-    path: '/ourkustom/custom3.png'
-  },
-]
+type Template = {
+  id: number;
+  title: string;
+  price: number;
+  image_url: string;
+  image_url_2?: string;
+  image_url_3?: string;
+  deks?: string;
+};
 
-export function CarouselKustom() {
+export function CarouselTemplate() {
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      const { data, error } = await supabase
+        .from("templates")
+        .select("*");
+
+      if (error) {
+        console.error("Gagal fetch template:", error.message);
+      } else {
+        setTemplates(data || []);
+      }
+    };
+
+    fetchTemplates();
+  }, []);
+
+  const url =
+    "https://bmgeuqxyshumafaxsauc.supabase.co/storage/v1/object/public/";
   return (
     <Carousel className="w-full">
       <CarouselContent>
-        {gambar.map((gambar, index) => (
-          <CarouselItem key={index}>
+        {templates.map((template) => (
+          <CarouselItem key={template.id}>
             <div className="p-1">
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center">
-                  {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
-                  <Image src={gambar.path} alt={`gambar ${gambar.id}`} width={500} height={500} />
+                  <Image
+                    src={url + template.image_url.trim()}
+                    alt={template.title}
+                    width={500}
+                    height={500}
+                    unoptimized
+                  />
                 </CardContent>
               </Card>
             </div>
@@ -45,5 +69,5 @@ export function CarouselKustom() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
-  )
+  );
 }

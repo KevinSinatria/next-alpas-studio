@@ -1,4 +1,5 @@
-import { CarouselKustom } from "@/components/Carousel";
+
+import { CarouselTemplate } from "@/components/Carousel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,13 +22,13 @@ const gambar = [
 export default function KustomPage() {
   return (
     <div className="px-4 sm:px-8 py-8 lg:px-20">
-      <div className="bg-linear-to-b/oklch from-blue-800/40 to-white/50 p-14 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-20">
+      <div className="bg-gradient-to-b from-blue-800/20 to-white/50 p-14 rounded-3xl backdrop-blur gap-6 items-center justify-center mt-20">
         <header className="w-full text-center md:text-left px-2 mb-10">
           <h2 className="text-white mt-3 sm:mt-5 flex flex-col gap-2">
-            <span className="text-xl sm:text-3xl md:text-4xl font-semibold uppercase flex justify-center">
+            <span className="text-2xl sm:text-4xl md:text-5xl font-semibold uppercase flex ">
               KUSTOM DESAIN
             </span>
-            <span className="text-sm sm:text-lg md:text-2xl text-gray-700 bg-white/59 rounded-2xl p-5  mx-auto md:mx-0 leading-snug">
+            <span className="text-sm sm:text-lg md:text-2xl text-white  rounded-2xl mx-auto md:mx-0 leading-snug">
               Butuh desain yang sesuai visi Anda? Di ALPAS Studio, Anda bisa
               request desain dari nol untuk brand, produk, atau kampanye
               digital. Konsultasi langsung dengan desainer, hasil auto maksimal!
@@ -36,9 +37,9 @@ export default function KustomPage() {
         </header>
 
         <main className="w-full">
-          <div className="flex flex-col lg:flex-row flex-wrap justify-center gap-8 px-4">
+          <div className="flex flex-col lg:flex-row flex-wrap justify-center ">
             {/* Card 1 */}
-            <div className="bg-gray-900/60 p-8 sm:p-10 lg:p-14 rounded-3xl backdrop-blur gap-6 items-center max-w-full lg:max-w-[600px] w-full mx-auto">
+            <div className="bg-linear-to-b/oklch from-gray-900/40 to-blue-600/20 border border-gray-400 p-8 sm:p-10 lg:p-14 rounded-3xl backdrop-blur gap-6 items-center max-w-full lg:max-w-[700px] w-full mx-auto mb-2">
               <h1 className="text-2xl sm:text-3xl text-white mb-3">
                 Mulai Perjalanan Desain Anda!
               </h1>
@@ -78,12 +79,12 @@ export default function KustomPage() {
             </div>
 
             {/* Card 2 */}
-            <div className="bg-gray-900/60 p-8 sm:p-10 lg:p-14 rounded-3xl backdrop-blur gap-6 items-center max-w-full lg:max-w-[600px] w-full mx-auto">
+            <div className="bg-linear-to-b/oklch from-gray-900/40 to-blue-600/20 border border-gray-400 p-8 sm:p-10 lg:p-14 rounded-3xl backdrop-blur gap-6 items-center max-w-full lg:max-w-[700px] w-full mx-auto mt-3">
               <h1 className="text-2xl sm:text-3xl text-white mb-3">
                 Mulai Perjalanan Desain Anda!
               </h1>
               <div className="">
-                <CarouselKustom />
+                <CarouselTemplate/>
               </div>
             </div>
           </div>

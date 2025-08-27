@@ -3,12 +3,22 @@
 import TiltedCard from "@/components/ui/TiltedCard";
 import { Star } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
   return (
-    <div className="flex flex-wrap items-start justify-center gap-8 mt-9 mb-11 px-4">
-      {/* Bagian Gambar */}
-      <div className="flex justify-center flex-shrink-0 min-w-[280px] md:min-w-[360] sm:min-w-[320px] lg:min-w-[400px] mb-75">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="flex flex-wrap items-start justify-center gap-8 mt-9 mb-11 px-4"
+    >
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+        className="flex justify-center flex-shrink-0 min-w-[280px] md:min-w-[360px] sm:min-w-[320px] lg:min-w-[400px] mb-20"
+      >
         <TiltedCard
           imageSrc="/alpas-studio-hero-card.png"
           containerHeight="380px"
@@ -21,10 +31,18 @@ const HeroSection = () => {
           showTooltip={true}
           displayOverlayContent={true}
         />
-      </div>
+      </motion.div>
 
       {/* Bagian Teks */}
-      <div className="flex flex-col gap-4 min-w-[280px] sm:min-w-[320px] mt-5 lg:max-w-[700px] text-base sm:text-lg md:text-xl">
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1 , scale: 1}}
+        transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+  // Fade in when the element enters the viewport:
+  whileInView={{ opacity: 1 }}
+
+        className="flex flex-col gap-4 min-w-[280px] sm:min-w-[320px] mt-5 lg:max-w-[700px] text-base sm:text-lg md:text-xl"
+      >
         {/* Card Kustom Desain */}
         <div className="flex flex-col border border-gray-300 shadow-xl p-6 sm:p-8 rounded-2xl gap-2 bg-slate-900/30 backdrop-blur-lg text-white">
           <h1 className="font-semibold text-lg sm:text-xl md:text-2xl">
@@ -68,10 +86,9 @@ const HeroSection = () => {
             UMKM dan startup.
           </p>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
 export default HeroSection;
-   

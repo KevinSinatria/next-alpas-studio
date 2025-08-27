@@ -1,4 +1,5 @@
 "use client";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,12 +22,20 @@ export default function TestimoniPage() {
   return (
     <section className="bg-gradient-to-b from-blue-800/40 to-white/50 pt-14 bottom-0 rounded-3xl">
       <header className="w-full text-center px-4 mb-10 mt-20">
-        <h2 className="text-white mt-10 sm:mt-5 text-2xl sm:text-3xl md:text-4xl font-semibold uppercase">
-          Tentang Kami
-        </h2>
+        <AnimatePresence>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 2 }}
+            className="text-white mt-10 sm:mt-5 text-2xl sm:text-3xl md:text-4xl font-semibold uppercase"
+          >
+            Tentang Kami
+          </motion.h2>
+        </AnimatePresence>
       </header>
 
-      <main className="bg-white pt-10">
+      <main className="bg-gradient-to-b from-white via-white to-blue-400 pt-10">
         {/* Konten 1: Teks kiri, gambar kanan */}
         <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -51,13 +60,13 @@ export default function TestimoniPage() {
             </div>
 
             <div className="flex justify-center md:justify-end">
-              <div className="rounded-2xl border border-white/30 bg-white/60 p-2 shadow-xl backdrop-blur">
+              <div className="rounded-2xl shadow-xl backdrop-blur overflow-hidden">
                 <Image
                   src="/gedung.png"
                   alt="Foto Studio"
                   width={720}
                   height={420}
-                  className="h-auto w-full max-w-md rounded-xl object-cover"
+                  className="h-auto w-full max-w-md rounded-xl object-cover transition duration-600 ease-in-out hover:scale-105 hover:brightness-110"
                 />
               </div>
             </div>
@@ -68,13 +77,13 @@ export default function TestimoniPage() {
         <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-10 pb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="flex justify-center md:justify-start">
-              <div className="rounded-2xl border border-white/30 bg-white/60 p-2 shadow-xl backdrop-blur">
+              <div className="rounded-2xl shadow-xl backdrop-blur">
                 <Image
                   src="/cafe.png"
                   alt="Tim ALPAS"
                   width={720}
                   height={420}
-                  className="h-auto w-full max-w-md rounded-xl object-cover"
+                  className="h-auto w-full max-w-md rounded-xl object-cover transition duration-600 ease-in-out hover:scale-105 hover:brightness-110"
                 />
               </div>
             </div>
@@ -91,8 +100,8 @@ export default function TestimoniPage() {
           </div>
         </section>
 
-        <h1 className="w-full text-center text-lg sm:text-xl md:text-2xl text-black mt-5 px-4">
-          Atau Konsultasikan Desainmu dengan Kami Melalui
+        <h1 className="w-full text-center text-lg sm:text-xl md:text-2xl text-black mt-5 px-4 font-bold">
+          Lebih tahu tentang kami melalui!
         </h1>
 
         <div className="w-full flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-5 pb-10 px-4">

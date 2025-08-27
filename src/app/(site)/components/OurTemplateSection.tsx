@@ -9,7 +9,8 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card"; // pastikan path ini benar
+} from "@/components/ui/hover-card";
+import { motion } from "framer-motion";
 
 type Template = {
   id: number;
@@ -40,33 +41,47 @@ const OurTemplateSection = () => {
     fetchTemplates();
   }, []);
 
-  const supabaseUrl =
-    "https://bmgeuqxyshumafaxsauc.supabase.co/storage/v1/object/public/";
+  const supabaseUrl = "https://bmgeuqxyshumafaxsauc.supabase.co/storage/v1/object/public/";
 
   return (
-    <section className="px-8 py-12 lg:px-20 w-full">
+    <motion.section
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="px-8 py-12 lg:px-20 w-full"
+    >
       <div className="w-full flex flex-col bg-linear-to-b/oklch from-slate-700/40 to-gray-400/70 p-8 rounded-3xl backdrop-blur gap-8 items-center justify-center">
         <header className="w-full">
           <h2 className="text-3xl text-white">
-            <span className="font-semibold uppercase">TEMPLATE KAMI </span>--
-            Siap Pakai untuk Kebutuhan Visual Anda!
+            <span className="font-semibold uppercase">TEMPLATE KAMI </span>-- Siap Pakai untuk Kebutuhan Visual Anda!
           </h2>
         </header>
 
-        <main className="flex gap-8 justify-center items-center flex-wrap w-full">
-          {templates.map((template) => {
-            const gambar = [
-              template.image_url,
-              template.image_url_2,
-              template.image_url_3,
-            ]
+        <motion.main
+          className="flex gap-8 justify-center items-center flex-wrap w-full"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          {templates.map((template, index) => {
+            const gambar = [template.image_url, template.image_url_2, template.image_url_3]
               .filter(Boolean)
               .map((img) => supabaseUrl + img!.trim());
 
             return (
-              <div
+              <motion.div
                 key={template.id}
                 className="flex flex-col gap-2 rounded-2xl shadow-2xl bg-white/80 p-4"
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <HoverCard>
                   <HoverCardTrigger asChild>
@@ -96,17 +111,11 @@ const OurTemplateSection = () => {
                       </div>
                       <div className="flex flex-col justify-between">
                         <div className="flex flex-col">
-                          <h1 className="text-xl font-semibold">
-                            {template.title}
-                          </h1>
-                          <h5 className="text-sm text-gray-600">
-                            {template.deks}
-                          </h5>
+                          <h1 className="text-xl font-semibold">{template.title}</h1>
+                          <h5 className="text-sm text-gray-600">{template.deks}</h5>
                         </div>
                         <div className="flex gap-1 items-start mt-1">
-                          <span className="text-xs bg-green-200 px-1 rounded-lg">
-                            Rp
-                          </span>
+                          <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span>
                           <span className="font-semibold text-lg sm:text-2xl">
                             {template.price.toLocaleString("id-ID")},-
                           </span>
@@ -117,23 +126,19 @@ const OurTemplateSection = () => {
                 </HoverCard>
 
                 <h2 className="text-black font-semibold text-base sm:text-lg mt-2">
-                  {template.title.length > 50
-                    ? template.title.substring(0, 50) + "..."
-                    : template.title}
+                  {template.title.length > 50 ? template.title.substring(0, 50) + "..." : template.title}
                 </h2>
 
                 <div className="flex gap-1 items-start mt-1">
-                  <span className="text-xs bg-green-200 px-1 rounded-lg">
-                    Rp
-                  </span>
+                  <span className="text-xs bg-green-200 px-1 rounded-lg">Rp</span>
                   <span className="font-semibold text-lg sm:text-2xl">
                     {template.price.toLocaleString("id-ID")},-
                   </span>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </main>
+        </motion.main>
 
         <footer className="w-full flex justify-center">
           <Link
@@ -144,7 +149,7 @@ const OurTemplateSection = () => {
           </Link>
         </footer>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

@@ -9,17 +9,6 @@ const supabase = createClient();
 
 type OrderType = "template" | "kustom";
 
-type SupabaseOrder = {
-  id: string;
-  nama: string;
-  email: string;
-  pesan: string;
-  link?: string;
-  template: {
-    title: string;
-  } | null;
-};
-
 type Order = {
   id: string;
   nama: string;

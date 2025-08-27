@@ -8,7 +8,6 @@ import { createClient } from "@/lib/supabase/client";
 import { Star } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 const DashboardPage = () => {
   type Testimoni = {
@@ -32,7 +31,6 @@ const DashboardPage = () => {
         console.error("Gagal fetch testimoni:", error.message);
       } else {
         setTestimoni(data || []);
-        // toast.success("selamat datang admin");
       }
     };
 
