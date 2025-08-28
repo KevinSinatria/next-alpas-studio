@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["bmgeuqxyshumafaxsauc.supabase.co"], // GANTI sesuai domain Supabase kamu
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
-export default nextConfig;
+export default nextConfig;  

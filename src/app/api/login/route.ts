@@ -11,7 +11,7 @@ const supabase = createClient(
 export async function POST(req: Request) {
   try {
     const { username, password } = await req.json();
-
+    
     if (!username || !password) {
       return NextResponse.json(
         { success: false, message: "Username dan password wajib diisi" },

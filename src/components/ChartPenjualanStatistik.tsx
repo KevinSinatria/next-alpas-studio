@@ -76,7 +76,7 @@ export default function ChartPenjualanStatistik() {
     };
 
     fetchData();
-  }, []);
+  }, [supabase]);
 
   const totalTemplate = pesanan.filter((item) => item.template_id != null).length;
   const totalCustom = pesanan.filter((item) => item.template_id == null).length;

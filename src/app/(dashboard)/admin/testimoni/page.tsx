@@ -29,41 +29,58 @@ export default function TestimoniPage() {
     "bg-pink-500",
   ];
 
-  const fetchData = async () => {
-    const from = (currentPage - 1) * itemsPerPage;
-    const to = from + itemsPerPage - 1;
+ useEffect(() => {
+    const fetchData = async () => {
+      const from = (currentPage - 1) * itemsPerPage;
+      const to = from + itemsPerPage - 1;
 
-    const { data, count, error } = await supabase
-      .from("comments")
-      .select("id, author, rate, body", { count: "exact" })
-      .order("id", { ascending: true })
-      .range(from, to);
+      const { data, count, error } = await supabase
+        .from("comments")
+        .select("id, author, rate, body", { count: "exact" })
+        .order("id", { ascending: true })
+        .range(from, to);
 
-    if (error) {
-      console.error("Gagal ambil data:", error.message);
-    } else {
-      setTestimoni(data as Testimoni[]);
-      setTotalPages(Math.ceil((count || 1) / itemsPerPage));
-    }
-  };
-
-  useEffect(() => {
+      if (error) {
+        console.error("Gagal ambil data:", error.message);
+      } else {
+        setTestimoni(data as Testimoni[]);
+        setTotalPages(Math.ceil((count || 1) / itemsPerPage));
+      }
+    };
+    
     fetchData();
   }, [currentPage]);
 
-  const handleDelete = async (id: number) => {
-    const ok = confirm("Hapus testimoni ini?");
-    if (!ok) return;
+const handleDelete = async (id: number) => {
+  const ok = confirm("Hapus testimoni ini?");
+  if (!ok) return;
 
-    const { error } = await supabase.from("comments").delete().eq("id", id);
-    if (error) {
-      alert("Gagal menghapus testimoni.");
-      return;
-    }
+  const { error } = await supabase.from("comments").delete().eq("id", id);
+  if (error) {
+    alert("Gagal menghapus testimoni.");
+    return;
+  }
 
-    setExpanded(null);
-    fetchData();
-  };
+  setExpanded(null);
+  
+  // Re-fetch the data after a successful delete
+  // You need to duplicate the fetchData logic or create a useCallback hook
+  const from = (currentPage - 1) * itemsPerPage;
+  const to = from + itemsPerPage - 1;
+
+  const { data, count, error: fetchError } = await supabase
+    .from("comments")
+    .select("id, author, rate, body", { count: "exact" })
+    .order("id", { ascending: true })
+    .range(from, to);
+
+  if (fetchError) {
+    console.error("Gagal ambil data setelah penghapusan:", fetchError.message);
+  } else {
+    setTestimoni(data as Testimoni[]);
+    setTotalPages(Math.ceil((count || 1) / itemsPerPage));
+  }
+};
 
   return (
     <section className="px-4 sm:px-8 py-8 lg:px-20 w-full">
