@@ -14,6 +14,7 @@ const gambar = [
     link: "https://www.instagram.com/alpastudio.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
     gambar: "/Instagram.png",
   },
+  
   {
     link: "https://www.tiktok.com/@alpasstudio.id?_t=ZS-8zAUgBuzaJl&_r=1",
     gambar: "/tiktok.png",
