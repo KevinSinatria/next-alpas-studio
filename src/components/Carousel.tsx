@@ -41,7 +41,7 @@ export function CarouselTemplate() {
     };
 
     fetchTemplates();
-  }, []);
+  }, [supabase]);
 
   const url =
     "https://bmgeuqxyshumafaxsauc.supabase.co/storage/v1/object/public/";

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ChevronRight, Filter, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { string } from "zod";
 
 const supabase = createClient();
 
@@ -34,34 +35,37 @@ export default function OrdersTable() {
     }
   };
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const { data, error } = await supabase
-        .from("pesanans")
-        .select(
-          "id, nama, email, pesan, link, template_id, template:templates(title)"
-        );
+// Add a function to handle data transformation
+function transformOrderData(data: any[]): Order[] {
+  return data.map((item) => ({
+    id: item.id,
+    nama: item.nama,
+    email: item.email,
+    pesan: item.pesan,
+    link: item.link ?? "",
+    jenis: item.template_id ? "template" : "kustom",
+    templateTitle: item.template?.title ?? "-",
+  }));
+}
 
-      if (error) {
-        console.error("Gagal fetch data:", error.message);
-      } else {
-        const transformed: Order[] = data.map((item) => ({
-          id: item.id,
-          nama: item.nama,
-          email: item.email,
-          pesan: item.pesan,
-          link: item.link ?? "",
-          jenis: item.template_id ? "template" : "kustom",
-          templateTitle: item.template?.title ?? "",
-        }));
+useEffect(() => {
+  const fetchOrders = async () => {
+    const { data, error } = await supabase
+      .from("pesanans")
+      .select(
+        "id, nama, email, pesan, link, template_id, template:templates(title)"
+      );
 
-        setOrders(transformed);
-      }
-    };
+    if (error) {
+      console.error("Gagal fetch data:", error.message);
+    } else {
+      const transformedData = transformOrderData(data);
+      setOrders(transformedData);
+    }
+  };
 
-    fetchOrders();
-  }, []);
-
+  fetchOrders();
+}, []);
   const data = useMemo(() => {
     if (filter === "all") return orders;
     return orders.filter((o) => o.jenis === filter);
