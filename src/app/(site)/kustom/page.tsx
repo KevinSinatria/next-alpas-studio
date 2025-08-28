@@ -8,11 +8,11 @@ import Link from "next/link";
 const gambar = [
   {
     link: "https://wa.me/62895346195409",
-    gambar: "/ourkustom/Whatsapp.png",
+    gambar: "/Whatsapp.png",
   },
   {
     link: "https://www.instagram.com/alpastudio.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-    gambar: "/ourkustom/Instagram.png",
+    gambar: "/Instagram.png",
   },
   {
     link: "https://www.tiktok.com/@alpasstudio.id?_t=ZS-8zAUgBuzaJl&_r=1",
